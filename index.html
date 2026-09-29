@@ -18,7 +18,7 @@
   --line:#d9cfb6; --line-2:#c9bfa4;
   --red:#a63a2b; --red-2:#7f2a1e;
   --green:#1e3229; --green-2:#152219; --cream:#efe7d3;
-  --gold:#b98a2f; --ok:#2e523f; --bad:#a63a2b;
+  --gold:#b98a2f; --ok:#2e523f; --bad:#a63a2b; --biru:#245e73; --oker:#8a6420;
   --mono:'IBM Plex Mono',monospace;
   --serif:'Fraunces',serif;
   --sans:'Archivo',sans-serif;
@@ -29,35 +29,37 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);overflow:h
 button{font-family:inherit}
 .app{display:grid;grid-template-columns:234px 1fr;height:100vh}
 
-/* ============ SIDEBAR ============ */
-.sidebar{position:relative;background:var(--green);color:#e8dfc8;display:flex;flex-direction:column;padding:20px 14px 16px;z-index:5}
+/* ============ SIDEBAR (menu menggulir, loket selalu utuh) ============ */
+.sidebar{position:relative;background:var(--green);color:#e8dfc8;display:flex;flex-direction:column;padding:16px 14px 14px;z-index:5;min-height:0;overflow:hidden}
 .sidebar::after{content:'';position:absolute;top:0;right:-6px;bottom:0;width:6px;
   background:repeating-linear-gradient(-55deg,var(--red) 0 9px,var(--cream) 9px 18px,#2f4d68 18px 27px,var(--cream) 27px 36px)}
-.brand{display:flex;gap:11px;align-items:center;padding:4px 6px 16px;border-bottom:1px solid rgba(232,223,200,.18)}
-.brand-ic{width:42px;height:42px;color:#d8553f;flex:none}
-.brand b{display:block;font:600 19px/1 var(--serif);letter-spacing:.02em}
+.brand{display:flex;gap:11px;align-items:center;padding:2px 6px 12px;border-bottom:1px solid rgba(232,223,200,.18);flex:none}
+.brand-ic{width:38px;height:38px;color:#d8553f;flex:none}
+.brand b{display:block;font:600 18px/1 var(--serif);letter-spacing:.02em}
 .brand small{display:block;font:600 8.5px var(--mono);letter-spacing:.22em;color:#a9a586;margin-top:5px;text-transform:uppercase}
-.nav{margin-top:16px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
-.nav-g{font:600 8.5px var(--mono);letter-spacing:.22em;color:#8f8b6e;margin:12px 6px 4px;text-transform:uppercase}
-.nav button{display:flex;align-items:center;gap:11px;width:100%;padding:9px 11px;border:none;background:transparent;color:#c9c1a4;border-radius:4px;cursor:pointer;text-align:left;transition:background .15s}
+.nav{margin-top:12px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;flex:1 1 auto;min-height:0;padding-right:2px}
+.nav::-webkit-scrollbar{width:4px}
+.nav::-webkit-scrollbar-thumb{background:rgba(232,223,200,.28);border-radius:2px}
+.nav-g{font:600 8.5px var(--mono);letter-spacing:.22em;color:#8f8b6e;margin:11px 6px 4px;text-transform:uppercase;flex:none}
+.nav button{display:flex;align-items:center;gap:11px;width:100%;padding:8px 11px;border:none;background:transparent;color:#c9c1a4;border-radius:4px;cursor:pointer;text-align:left;transition:background .15s;flex:none}
 .nav button:hover{background:rgba(232,223,200,.08)}
 .nav .n-idx{font:500 9.5px var(--mono);opacity:.55;width:18px}
-.nav .n-t{font:500 13.5px var(--sans)}
-.nav button svg{width:16px;height:16px}
+.nav .n-t{font:500 13px var(--sans)}
+.nav button svg{width:16px;height:16px;flex:none}
 .nav button.active{background:var(--cream);color:var(--green);box-shadow:2px 2px 0 rgba(0,0,0,.25)}
 .nav button.active .n-idx{color:var(--red);opacity:1}
-.loket{margin-top:auto;border:1px dashed rgba(232,223,200,.35);border-radius:4px;padding:12px 13px}
+.loket{margin-top:10px;flex:none;border:1px dashed rgba(232,223,200,.35);border-radius:4px;padding:11px 13px}
 .loket .lk-t{font:600 8.5px var(--mono);letter-spacing:.24em;color:#a9a586}
-.loket .lk-c{font:600 24px var(--mono);letter-spacing:.04em;margin-top:6px;color:#f0e9d4}
-.loket .lk-d{font:500 10.5px var(--sans);color:#b3ac8d;margin-top:3px}
+.loket .lk-c{font:600 22px var(--mono);letter-spacing:.04em;margin-top:5px;color:#f0e9d4;line-height:1.15}
+.loket .lk-d{font:500 10px var(--sans);color:#b3ac8d;margin-top:4px;line-height:1.4}
 
 /* ============ TOPBAR ============ */
-main{display:flex;flex-direction:column;min-width:0;overflow:hidden}
+main{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
 .topbar{height:64px;flex:none;display:flex;align-items:center;gap:18px;padding:0 22px;background:var(--paper-2);border-bottom:2px solid var(--ink)}
 .topbar h2{font:600 20px var(--serif)}
 .topbar p{font:500 11.5px var(--sans);color:var(--ink-3);margin-top:2px}
 #tbActions{margin-left:auto;display:flex;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1.5px solid var(--ink);background:var(--paper-3);color:var(--ink);font:700 12.5px var(--sans);letter-spacing:.02em;border-radius:3px;cursor:pointer;box-shadow:2.5px 2.5px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1.5px solid var(--ink);background:var(--paper-3);color:var(--ink);font:700 12.5px var(--sans);letter-spacing:.02em;border-radius:3px;cursor:pointer;box-shadow:2.5px 2.5px 0 var(--ink);transition:transform .1s,box-shadow .1s;text-decoration:none}
 .btn:hover{transform:translate(-1px,-1px);box-shadow:3.5px 3.5px 0 var(--ink)}
 .btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
 .btn.primary{background:var(--red);border-color:var(--red-2);color:#fbf4e4;box-shadow:2.5px 2.5px 0 var(--red-2)}
@@ -69,19 +71,12 @@ main{display:flex;flex-direction:column;min-width:0;overflow:hidden}
 .view{display:none;flex:1;min-height:0}
 .view.active{display:flex;flex-direction:column}
 .split{display:flex;flex:1;min-height:0}
-.formcol{width:402px;flex:none;overflow-y:auto;padding:20px 22px 50px;border-right:1px solid var(--line);background:var(--paper-2)}
-.desk{flex:1;position:relative;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:30px 34px;
+.formcol{width:402px;flex:none;overflow-y:auto;padding:20px 22px 50px;border-right:1px solid var(--line);background:var(--paper-2);min-height:0}
+.desk{flex:1;position:relative;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:30px 34px;min-height:0;
   background:#e9e1cd;background-image:radial-gradient(#d6cbaa 1px,transparent 1.3px);background-size:18px 18px}
 .scale-wrap{margin:auto;flex:none}
-.desk-tag{position:absolute;top:14px;left:16px;font:600 9.5px var(--mono);letter-spacing:.14em;color:#6f6a52;background:var(--paper-2);border:1px solid var(--line-2);padding:4px 9px;border-radius:3px}
-.desk-hint{position:absolute;bottom:12px;left:16px;font:500 10px var(--mono);letter-spacing:.06em;color:#948d6f}
-.desk-print{position:absolute;top:14px;right:16px;z-index:9;display:inline-flex;align-items:center;gap:7px;
-  padding:8px 14px;border:1.5px solid var(--red-2);background:var(--red);color:#fbf4e4;
-  font:700 11.5px var(--sans);letter-spacing:.06em;border-radius:3px;cursor:pointer;
-  box-shadow:2.5px 2.5px 0 var(--red-2);transition:transform .1s,box-shadow .1s}
-.desk-print:hover{transform:translate(-1px,-1px);box-shadow:3.5px 3.5px 0 var(--red-2)}
-.desk-print:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--red-2)}
-.desk-print svg{width:14px;height:14px}
+.desk-tag{position:absolute;top:14px;left:16px;font:600 9.5px var(--mono);letter-spacing:.14em;color:#6f6a52;background:var(--paper-2);border:1px solid var(--line-2);padding:4px 9px;border-radius:3px;z-index:4}
+.desk-hint{position:absolute;bottom:12px;left:16px;font:500 10px var(--mono);letter-spacing:.06em;color:#948d6f;z-index:4}
 .fnote{font:11.5px/1.5 var(--sans);color:var(--ink-3);margin-top:28px;padding-top:12px;border-top:1px dashed var(--line-2)}
 
 /* ============ FORM ============ */
@@ -133,6 +128,8 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
 .mini.badbtn:hover{border-color:var(--bad);background:#f8eeea}
 .mini.pillb.onp{background:#1fa05a;border-color:#177a44;color:#fff}
 .mini.pillb.offp{background:#e23b3b;border-color:#a82727;color:#fff}
+.mini.primary{background:var(--red);border-color:var(--red-2);color:#fbf4e4}
+.mini.primary:hover{background:#8f2f22;border-color:var(--red-2)}
 .chip{font:600 10px var(--mono);letter-spacing:.08em;color:var(--ink-2);background:#efe8d5;border:1px solid var(--line-2);padding:4px 9px;border-radius:3px;white-space:nowrap}
 .pager{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
 .pg-btns{display:flex;align-items:center;gap:8px}
@@ -577,6 +574,51 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
 .cv-xp ul{margin:1.6mm 0 0;padding-left:5mm}
 .cv-xp li{font:9.5pt/1.55 var(--bodyf);color:#39433c;margin-top:.8mm}
 
+/* ============ PENGIRIMAN KURIR ============ */
+.kirim-wrap{flex:1;overflow:auto;padding:22px 30px 60px;min-height:0;
+  background:#e9e1cd;background-image:radial-gradient(#d6cbaa 1px,transparent 1.3px);background-size:18px 18px}
+.kd-inner{max-width:1180px;margin:0 auto}
+.kd-live{display:inline-flex;align-items:center;gap:7px;font:600 10px var(--mono);letter-spacing:.14em;color:#6f6a52;margin-bottom:14px}
+.kd-live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:kdBlink 1.6s infinite}
+@keyframes kdBlink{50%{opacity:.25}}
+.kd-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px}
+.kd-stat{background:var(--paper-3);border:1px solid var(--line-2);border-radius:4px;padding:13px 15px;box-shadow:3px 3px 0 rgba(37,49,42,.14)}
+.kd-stat b{display:block;font:700 24px var(--mono);letter-spacing:.03em}
+.kd-stat span{display:block;font:600 9.5px var(--mono);letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;margin-top:4px}
+.kd-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:1080px){.kd-cols{grid-template-columns:1fr}}
+.kd-panel{background:var(--paper-2);border:1px solid var(--line-2);border-radius:6px;box-shadow:4px 4px 0 rgba(37,49,42,.16);overflow:hidden}
+.kd-panel>h2{display:flex;align-items:center;gap:9px;font:700 13px var(--sans);letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 18px;background:#efe9d8;border-bottom:1px solid var(--line-2);color:var(--ink)}
+.kd-panel>h2 svg{width:17px;height:17px;color:var(--red)}
+.kd-ph{font:500 11.5px/1.55 var(--sans);color:var(--ink-3);padding:10px 18px;border-bottom:1px dashed var(--line)}
+.kd-ph b{color:var(--ink)}
+.kd-list{padding:14px}
+.kd-card{background:var(--paper-3);border:1px solid var(--line-2);border-left:4px solid var(--line-2);border-radius:4px;padding:12px 14px;margin-bottom:11px}
+.kd-card.st-kemas{border-left-color:var(--ink-3)}
+.kd-card.st-siap{border-left-color:var(--oker)}
+.kd-card.st-diserahkan{border-left-color:var(--red)}
+.kd-card.st-diantar{border-left-color:var(--biru)}
+.kd-card.st-diterima{border-left-color:var(--ok)}
+.kd-card.st-gagal{border-left-color:#7a4a1a}
+.kd-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.kd-kode{font:700 13px var(--mono);letter-spacing:.08em}
+.kd-pill{display:inline-block;padding:3px 11px;border-radius:99px;color:#fff;font:800 9.5px var(--sans);letter-spacing:.12em}
+.kd-nm{font:700 14.5px var(--sans)}
+.kd-sub{font:500 12px/1.55 var(--sans);color:var(--ink-2);margin-top:3px}
+.kd-sub b{font-weight:700;color:var(--ink)}
+.kd-tl{margin-top:8px;font:500 10.5px/1.8 var(--mono);color:var(--ink-2)}
+.kd-tl b{color:var(--ink)}
+.kd-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.kd-note{font:600 11px var(--mono);letter-spacing:.05em;color:var(--ink-3);display:inline-flex;align-items:center;gap:6px}
+.kd-note svg{width:13px;height:13px}
+.kd-maps{color:var(--biru);font-weight:700;text-decoration:none;border-bottom:1px dashed var(--biru)}
+.kd-maps:hover{color:#1a4a5c}
+.kd-tools{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.kd-empty{text-align:center;padding:40px 18px;color:var(--ink-3)}
+.kd-empty svg{width:42px;height:42px;color:var(--line-2)}
+.kd-empty p{font:500 12.5px/1.65 var(--sans);max-width:46ch;margin:12px auto 0}
+
 /* ============ PEMINDAI KAMERA NYATA ============ */
 .scan-ov{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(21,34,25,.86);padding:20px}
 .scan-ov.show{display:flex}
@@ -718,15 +760,16 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
       <button data-view="kertas"><span class="n-idx">05</span><i data-lucide="file-pen"></i><span class="n-t">Kertas Surat</span></button>
       <button data-view="masjid"><span class="n-idx">06</span><i data-lucide="moon-star"></i><span class="n-t">Amplop Masjid</span></button>
       <button data-view="paket"><span class="n-idx">07</span><i data-lucide="package"></i><span class="n-t">Label Paket</span></button>
+      <button data-view="kirim"><span class="n-idx">08</span><i data-lucide="truck"></i><span class="n-t">Pengiriman Kurir</span></button>
       <div class="nav-g">Kepegawaian</div>
-      <button data-view="surat"><span class="n-idx">08</span><i data-lucide="scroll-text"></i><span class="n-t">Surat Dinas</span></button>
-      <button data-view="lamaran"><span class="n-idx">09</span><i data-lucide="briefcase"></i><span class="n-t">Surat Lamaran</span></button>
-      <button data-view="hr"><span class="n-idx">10</span><i data-lucide="user-plus"></i><span class="n-t">Rekrutmen</span></button>
-      <button data-view="abs"><span class="n-idx">11</span><i data-lucide="clipboard-check"></i><span class="n-t">Absensi Kehadiran</span></button>
-      <button data-view="jd"><span class="n-idx">12</span><i data-lucide="calendar-days"></i><span class="n-t">Jadwal Kerja</span></button>
+      <button data-view="surat"><span class="n-idx">09</span><i data-lucide="scroll-text"></i><span class="n-t">Surat Dinas</span></button>
+      <button data-view="lamaran"><span class="n-idx">10</span><i data-lucide="briefcase"></i><span class="n-t">Surat Lamaran</span></button>
+      <button data-view="hr"><span class="n-idx">11</span><i data-lucide="user-plus"></i><span class="n-t">Rekrutmen</span></button>
+      <button data-view="abs"><span class="n-idx">12</span><i data-lucide="clipboard-check"></i><span class="n-t">Absensi Kehadiran</span></button>
+      <button data-view="jd"><span class="n-idx">13</span><i data-lucide="calendar-days"></i><span class="n-t">Jadwal Kerja</span></button>
       <div class="nav-g">Lainnya</div>
-      <button data-view="cv"><span class="n-idx">13</span><i data-lucide="contact"></i><span class="n-t">CV Modern</span></button>
-      <button data-view="arsip"><span class="n-idx">14</span><i data-lucide="archive"></i><span class="n-t">Arsip</span></button>
+      <button data-view="cv"><span class="n-idx">14</span><i data-lucide="contact"></i><span class="n-t">CV Modern</span></button>
+      <button data-view="arsip"><span class="n-idx">15</span><i data-lucide="archive"></i><span class="n-t">Arsip</span></button>
     </nav>
     <div class="loket">
       <div class="lk-t">LOKET BUKA</div>
@@ -752,10 +795,10 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
             <div class="home-kicker">Meja Pos · Stasiun Cetak</div>
             <h1>Dari kaligrafi<br>sampai <em>cap pos</em>.</h1>
             <div class="h-strip"></div>
-            <p class="home-sub">Undangan pernikahan, amplop bermotif, amplop masjid berlogo foto, label paket ber-QR peta, rekrutmen ✓/✗, absensi terpindai kamera nyata, jadwal pekan ber-shift, surat dinas, hingga CV modern — semuanya bisa dicetak langsung dari pratinjaunya.</p>
+            <p class="home-sub">Undangan pernikahan, amplop bermotif, label paket ber-QR peta, pengiriman kurir yang terisi otomatis setiap paket selesai packing, rekrutmen ✓/✗, absensi terpindai kamera nyata, jadwal pekan ber-shift, hingga CV modern — semuanya tercetak rapi dari tombol Cetak di bilah atas.</p>
             <div class="home-actions">
               <button class="btn primary" data-act="go" data-view="undangan"><i data-lucide="mail-open"></i><span>Mulai Menulis</span></button>
-              <button class="btn" data-act="go" data-view="arsip"><i data-lucide="archive"></i><span>Lihat Arsip</span></button>
+              <button class="btn" data-act="go" data-view="kirim"><i data-lucide="truck"></i><span>Serah Terima Kurir</span></button>
             </div>
             <div class="home-more">
               <span>Meja lainnya —</span>
@@ -768,15 +811,15 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
           </div>
           <div class="stack">
             <div class="home-stamp" id="homeStamp"></div>
-            <button class="pcard p-und" data-act="go" data-view="masjid">
+            <button class="pcard p-und" data-act="go" data-view="kirim">
               <div class="pc-in">
-                <div class="pc-k">AMPLOP MASJID</div>
-                <div class="pc-script">Infaq · Wakaf</div>
+                <div class="pc-k">MEJA PENGIRIMAN</div>
+                <div class="pc-script">Serah Terima</div>
                 <div class="pc-rule"></div>
-                <div class="pc-s">Logo foto masjid sendiri</div>
-                <div class="pc-s dim">Cetak langsung dari pratinjau</div>
+                <div class="pc-s">Paket selesai packing masuk otomatis</div>
+                <div class="pc-s dim">Diserahkan · Diantar · Diterima</div>
               </div>
-              <span class="pc-lab">Amplop Masjid <i data-lucide="arrow-right"></i></span>
+              <span class="pc-lab">Pengiriman Kurir <i data-lucide="arrow-right"></i></span>
             </button>
             <button class="pcard p-env" data-act="go" data-view="abs">
               <div class="pc-env">
@@ -800,7 +843,7 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
         <div class="home-strip">
           <div><b id="stArch">0</b><span>surat di arsip</span></div>
           <div><b id="stNo">—</b><span>nomor surat terbit</span></div>
-          <div><b>12</b><span>meja kerja · cetak langsung</span></div>
+          <div><b>13</b><span>meja kerja · kamera pemindai nyata</span></div>
         </div>
       </div>
     </section>
@@ -873,6 +916,33 @@ input[type=range]{width:100%;accent-color:var(--red);height:22px}
           <div class="desk-tag" id="tagPkg">LABEL PAKET · 4×6 · 101.6 × 152.4 MM</div>
           <div class="scale-wrap" id="wrapPkg"><div class="sheet lbl lbl-46" id="sheetPkg"></div></div>
           <div class="desk-hint">resi barcode · QR peta tujuan · stempel status</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PENGIRIMAN KURIR -->
+    <section class="view" id="view-kirim">
+      <div class="kirim-wrap">
+        <div class="kd-inner">
+          <div class="kd-live"><i></i>TERSINKRON LANGSUNG DENGAN MEJA LABEL PAKET &amp; KURIR PENGANTAR (PENYIMPANAN LOKAL)</div>
+          <div class="kd-tools">
+            <a class="btn" href="kurir-pengantar.html" title="Berkas kurir-pengantar.html harus berada di folder yang sama"><i data-lucide="bike"></i><span>Buka Kurir Pengantar</span></a>
+            <button class="btn" data-act="kdm-demo"><i data-lucide="flask-conical"></i><span>Isi contoh paket</span></button>
+            <button class="btn" data-act="kdm-refresh"><i data-lucide="refresh-cw"></i><span>Segarkan</span></button>
+          </div>
+          <div class="kd-stats" id="kdStats"></div>
+          <div class="kd-cols">
+            <section class="kd-panel">
+              <h2><i data-lucide="package-check"></i>Paket dari Meja Pos Satu Pintu</h2>
+              <div class="kd-ph">Setiap kotak yang <b>selesai packing</b> dan disetujui di Meja Label Paket (status <b>SIAP DIAMBIL</b>) otomatis masuk ke daftar ini — tinggal tekan <b>Serahkan ke Kurir</b>.</div>
+              <div class="kd-list" id="kdPrep"></div>
+            </section>
+            <section class="kd-panel">
+              <h2><i data-lucide="truck"></i>Progres Pengantar Kurir</h2>
+              <div class="kd-ph">Status diperbarui otomatis oleh aplikasi <b>Kurir Pengantar</b> — atau gunakan tombol kemajuan manual di tiap kartu untuk pengujian.</div>
+              <div class="kd-list" id="kdProg"></div>
+            </section>
+          </div>
         </div>
       </div>
     </section>
@@ -997,6 +1067,7 @@ function addDays(n){const d=new Date();d.setDate(d.getDate()+n);return d.getFull
 function fmtDate(s){if(!s)return'…';const d=new Date(s+'T00:00:00');if(isNaN(d))return esc(s);return HARI[d.getDay()]+', '+d.getDate()+' '+BULAN[d.getMonth()]+' '+d.getFullYear();}
 function fmtDateShort(s){if(!s)return'…';const d=new Date(s+'T00:00:00');if(isNaN(d))return esc(s);return d.getDate()+' '+BULAN[d.getMonth()]+' '+d.getFullYear();}
 function nowHM(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function isoHM(iso){const d=new Date(iso);return isNaN(d)?'—':String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 function refreshIcons(){window.lucide&&lucide.createIcons();}
 function toast(msg,icon='check'){
   const t=document.createElement('div');t.className='toast';
@@ -1033,12 +1104,14 @@ const ENV_SIZE={dl:{w:220,h:110,tag:'DL · 220 × 110'},c5:{w:229,h:162,tag:'C5 
 const PKG_SIZE={46:{w:101.6,h:152.4,tag:'4×6 · 101.6 × 152.4'},a6:{w:105,h:148,tag:'A6 · 105 × 148'},sq:{w:100,h:100,tag:'KOTAK · 100 × 100'}};
 const PKG_ST=[['kemas','DIKEMAS','#8a6420'],['siap','SIAP DIAMBIL','#a63a2b'],['jalan','DIKIRIM','#245e73'],['sampai','DITERIMA','#2e523f']];
 const HR_ST=[['lamar','LAMAR MASUK','#8a8f85'],['seleksi','SELEKSI','#8a6420'],['wawancara','WAWANCARA','#245e73'],['tawar','TAWARAN','#a4552e'],['diterima','DITERIMA','#2e523f'],['ditolak','DITOLAK','#a63a2b']];
+const KRM_ST={diserahkan:['DISERAHKAN','#a63a2b'],diantar:['DIANTAR','#245e73'],diterima:['DITERIMA','#2e523f'],gagal:['GAGAL','#7a4a1a']};
 const UND_LABEL={pernikahan:'Undangan Pernikahan',akikah:'Undangan Akikah',khitan:'Undangan Khitanan',ultah:'Undangan Ulang Tahun',syukuran:'Undangan Syukuran'};
 const LET_T={undangan:'Surat Undangan',tugas:'Surat Tugas',keterangan:'Surat Keterangan',pernyataan:'Surat Pernyataan',kuasa:'Surat Kuasa'};
 const LET_KODE={undangan:'UND',tugas:'TUG',keterangan:'KET',pernyataan:'PST',kuasa:'KUA'};
 const KIND={und:{view:'undangan',label:'Undangan',icon:'mail-open'},bungkus:{view:'bungkus',label:'Amplop Pembungkus',icon:'flower-2'},
   env:{view:'amplop',label:'Amplop Pos',icon:'mail'},pos:{view:'kertas',label:'Kertas Surat',icon:'file-pen'},
   masjid:{view:'masjid',label:'Amplop Masjid',icon:'moon-star'},pkg:{view:'paket',label:'Label Paket',icon:'package'},
+  kirim:{view:'kirim',label:'Pengiriman Kurir',icon:'truck'},
   hr:{view:'hr',label:'Rekrutmen',icon:'user-plus'},abs:{view:'abs',label:'Absensi Kehadiran',icon:'clipboard-check'},
   jd:{view:'jd',label:'Jadwal Kerja',icon:'calendar-days'},
   let:{view:'surat',label:'Surat Dinas',icon:'scroll-text'},lamaran:{view:'lamaran',label:'Surat Lamaran',icon:'briefcase'},
@@ -1758,6 +1831,199 @@ function renderPkg(){
   requestAnimationFrame(()=>fit('paket'));
 }
 
+/* ================= PENGIRIMAN KURIR (serah terima) ================= */
+const DKEY='posstudio.dispatch';
+function loadD(){try{const a=JSON.parse(localStorage.getItem(DKEY));return Array.isArray(a)?a:[];}catch(e){return[];}}
+function saveD(a){localStorage.setItem(DKEY,JSON.stringify(a));if(activeView==='kirim')renderKirim();}
+function findRec(kode){const a=loadD();for(let i=a.length-1;i>=0;i--)if(a[i].kode===kode)return a[i];return null;}
+function krmHandover(p){
+  const a=loadD();
+  const so='SO-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+String(a.length+1).padStart(3,'0');
+  a.push({id:Date.now(),so,kode:p.kode,rNama:p.rNama,rTelp:p.rTelp,rAlamat:p.rAlamat,rKota:p.rKota,rKode:p.rKode,
+    isi:p.isi,jumlah:p.jumlah,berat:p.berat,layanan:p.layanan||'REGULER',maps:pkgMapsURL(p),
+    status:'diserahkan',kurir:'',serah:new Date().toISOString(),ambil:'',selesai:'',penerimaTtd:'',catatan:''});
+  saveD(a);
+  toast('Paket '+p.kode+' diserahkan ke kurir — '+so,'handshake');
+}
+function krmPull(id){saveD(loadD().filter(r=>r.id!==id));toast('Serah terima dibatalkan — paket kembali ke Meja Pos','undo-2');}
+function krmDel(id){saveD(loadD().filter(r=>r.id!==id));toast('Catatan pengiriman dihapus','trash-2');}
+function krmAdvance(id,to){
+  const a=loadD();const r=a.find(x=>x.id===id);if(!r)return;
+  const now=new Date().toISOString();
+  if(to==='diantar'){r.status='diantar';r.ambil=now;if(!r.kurir)r.kurir='Kurir (manual)';}
+  else if(to==='diterima'){r.status='diterima';r.selesai=now;if(!r.penerimaTtd)r.penerimaTtd='(ditandai manual)';}
+  else if(to==='gagal'){r.status='gagal';r.selesai=now;if(!r.catatan)r.catatan='ditandai manual';}
+  saveD(a);
+  toast(r.kode+' → '+KRM_ST[to][0],to==='diterima'?'check-circle-2':'triangle-alert');
+}
+function kdPill(st){const m=KRM_ST[st]||['?','#888'];return `<span class="kd-pill" style="background:${m[1]}">${m[0]}</span>`;}
+function renderKirim(){
+  if(activeView!=='kirim')return;
+  const ps=S.pkg.packages.map(p=>({...p,kode:pkgKode(p),layanan:S.pkg.layanan||'REGULER'}));
+  const store=loadD();
+  let nKemas=0,nSiap=0;
+  ps.forEach(p=>{if(!findRec(p.kode)){p.status==='siap'?nSiap++:nKemas++;}});
+  const nD=st=>store.filter(r=>r.status===st).length;
+  $('#kdStats').innerHTML=`
+    <div class="kd-stat" style="color:var(--oker)"><b>${nKemas+nSiap}</b><span>Di Meja Pos</span></div>
+    <div class="kd-stat" style="color:var(--red)"><b>${nD('diserahkan')}</b><span>Diserahkan</span></div>
+    <div class="kd-stat" style="color:var(--biru)"><b>${nD('diantar')}</b><span>Sedang Diantar</span></div>
+    <div class="kd-stat" style="color:var(--ok)"><b>${nD('diterima')}</b><span>Diterima</span></div>
+    <div class="kd-stat" style="color:#7a4a1a"><b>${nD('gagal')}</b><span>Gagal</span></div>`;
+  const prep=ps.slice().reverse().map(p=>{
+    const r=findRec(p.kode);
+    if(r){
+      return `<div class="kd-card st-${r.status}">
+        <div class="kd-top"><span class="kd-kode">${esc(p.kode)}</span>${kdPill(r.status)}</div>
+        <div class="kd-nm">${esc(p.rNama||'—')}</div>
+        <div class="kd-sub">Sudah diserahkan · <b>${esc(r.so||'')}</b>${r.kurir?' · kurir <b>'+esc(r.kurir)+'</b>':''}</div>
+        <div class="kd-acts"><span class="kd-note"><i data-lucide="radio"></i>pantau di panel Progres Pengantar</span></div>
+      </div>`;
+    }
+    const ready=p.status==='siap';
+    return `<div class="kd-card ${ready?'st-siap':'st-kemas'}">
+      <div class="kd-top"><span class="kd-kode">${esc(p.kode)}</span>
+        <span class="kd-pill" style="background:${ready?'#8a6420':'#8a948c'}">${ready?'SIAP DIAMBIL — SELESAI PACKING':'DIKEMAS — BELUM DISETUJUI'}</span></div>
+      <div class="kd-nm">${esc(p.rNama||'—')}</div>
+      <div class="kd-sub">${esc(p.rKota||'—')}${p.rKode?' '+esc(p.rKode):''} · ${esc(p.isi||'—')} · ${esc(p.berat||'—')} · ${esc(p.layanan||'REGULER')}</div>
+      <div class="kd-acts">${ready
+        ?`<button class="mini primary" data-act="kdm-handover" data-kode="${esc(p.kode)}"><i data-lucide="handshake"></i>Serahkan ke Kurir</button>`
+        :`<span class="kd-note"><i data-lucide="lock"></i>setujui dulu di Meja Label Paket (tekan ↻ hingga status SIAP DIAMBIL)</span>`}</div>
+    </div>`;
+  }).join('');
+  $('#kdPrep').innerHTML=prep||`<div class="kd-empty"><i data-lucide="package-open"></i>
+    <p>Belum ada paket. Buat kotak di <b>Meja Label Paket</b> — begitu statusnya menjadi <b>SIAP DIAMBIL</b>, paket langsung muncul di sini. Atau muat contoh dengan tombol <b>Isi contoh paket</b> di atas.</p></div>`;
+  const prog=store.slice().reverse().map(r=>{
+    let acts='';
+    if(r.status==='diserahkan')acts+=`<button class="mini" data-act="kdm-pull" data-id="${r.id}"><i data-lucide="undo-2"></i>Tarik kembali</button>
+      <button class="mini" data-act="kdm-adv" data-id="${r.id}" data-to="diantar"><i data-lucide="bike"></i>Tandai Diantar</button>`;
+    if(r.status==='diantar')acts+=`<button class="mini okbtn" data-act="kdm-adv" data-id="${r.id}" data-to="diterima">${OKSVG(13)} Diterima</button>
+      <button class="mini badbtn" data-act="kdm-adv" data-id="${r.id}" data-to="gagal">${NOSVG(13)} Gagal</button>`;
+    if(r.status==='diterima'||r.status==='gagal')acts+=`<button class="mini danger" data-act="kdm-del" data-id="${r.id}"><i data-lucide="trash-2"></i>Hapus catatan</button>`;
+    const m=r.maps?`<a class="kd-maps" href="${esc(r.maps)}" target="_blank" rel="noopener">Peta tujuan</a>`:'';
+    return `<div class="kd-card st-${r.status}">
+      <div class="kd-top"><span class="kd-kode">${esc(r.kode)}</span>${kdPill(r.status)}</div>
+      <div class="kd-nm">${esc(r.rNama||'—')}</div>
+      <div class="kd-sub">${esc(r.rKota||'')} · ${esc(r.isi||'—')}${r.berat?' · '+esc(r.berat):''} ${m?'· '+m:''}</div>
+      <div class="kd-tl">
+        Diserahkan <b>${isoHM(r.serah)}</b>${r.so?' · '+esc(r.so):''}<br>
+        ${r.status!=='diserahkan'?`Diantar <b>${isoHM(r.ambil)}</b> oleh <b>${esc(r.kurir||'—')}</b><br>`:''}
+        ${r.status==='diterima'?`Diterima <b>${isoHM(r.selesai)}</b> — <b>${esc(r.penerimaTtd||'')}</b>`:''}
+        ${r.status==='gagal'?`Gagal <b>${isoHM(r.selesai)}</b> — ${esc(r.catatan||'—')}`:''}
+      </div>
+      ${acts?`<div class="kd-acts">${acts}</div>`:''}
+    </div>`;
+  }).join('');
+  $('#kdProg').innerHTML=prog||`<div class="kd-empty"><i data-lucide="bike"></i>
+    <p>Belum ada serah terima. Setelah menekan <b>Serahkan ke Kurir</b>, kurir melihat paketnya di aplikasi <b>Kurir Pengantar</b> — progresnya muncul di sini secara langsung. Tombol kemajuan manual juga tersedia untuk pengujian.</p></div>`;
+  refreshIcons();
+}
+window.addEventListener('storage',e=>{
+  if((e.key===DKEY||e.key==='posstudio.draft')&&activeView==='kirim')renderKirim();
+});
+setInterval(()=>{if(activeView==='kirim')renderKirim();},2500);
+
+/* ================= RENDER: AMPLOP POS ================= */
+const sheetEnv=$('#sheetEnv'),wrapEnv=$('#wrapEnv'),tagEnv=$('#tagEnv');
+function parseRec(txt){
+  return String(txt||'').split(/\n\s*\n/).map(b=>b.split('\n').map(s=>s.trim()).filter(Boolean)).filter(a=>a.length);
+}
+function envHTML(i){
+  const E=S.env,recs=parseRec(E.daftar);
+  const r=recs.length?recs[Math.min(i,recs.length-1)]:null;
+  let out='';
+  if(E.airmail)out+='<div class="e-strip"></div>';
+  if(E.tampilPengirim){
+    out+=`<div class="e-sender"><b>${v(E.pNama,'Pengirim')}</b>${E.pInst?'<br>'+esc(E.pInst):''}<br>${nl2br(esc(E.pAlamat||''))}<br>${esc(E.pKota||'')}${E.pKode?' '+esc(E.pKode):''}</div>`;
+  }
+  if(E.perangko)out+='<div class="e-box">Tempel<br>Perangko</div>';
+  if(E.postmark)out+=postmarkSVG(E.pKota);
+  let rec;
+  if(r){
+    rec=`<div class="r-name">${esc(r[0])}</div>`;
+    if(r.length>1){
+      const mid=r.slice(1,-1).map(l=>`<div>${esc(l)}</div>`).join('');
+      rec+=`<div class="r-lines">${mid}<div class="r-city">${esc(r[r.length-1])}</div></div>`;
+    }
+  }else{
+    rec=`<div class="r-name dim">Nama Penerima</div><div class="r-lines dim"><div>Alamat lengkap</div><div class="r-city">Kota — Kode Pos</div></div>`;
+  }
+  out+=`<div class="e-recipient">${rec}</div>`;
+  if(E.layanan)out+=`<div class="e-service">${esc(E.layanan)}</div>`;
+  return out;
+}
+function renderEnv(){
+  const E=S.env;
+  sheetEnv.className='sheet env env-'+E.size+(E.garis?' with-rules':'');
+  const recs=parseRec(E.daftar);
+  if(E.idx>=recs.length)E.idx=Math.max(0,recs.length-1);
+  sheetEnv.innerHTML=envHTML(E.idx);
+  tagEnv.textContent='AMPLOP '+ENV_SIZE[E.size].tag+' MM';
+  const rc=$('#recCount'),ri=$('#recIdx');
+  if(rc)rc.textContent=(recs.length||0)+' penerima terbaca';
+  if(ri)ri.textContent=(recs.length?(E.idx+1):0)+' / '+recs.length;
+  requestAnimationFrame(()=>fit('amplop'));
+}
+
+/* ================= RENDER: AMPLOP MASJID ================= */
+const sheetMasjid=$('#sheetMasjid'),wrapMasjid=$('#wrapMasjid'),tagMasjid=$('#tagMasjid');
+function masjidLogoTag(){
+  return S.masjid.logo
+    ?`<img class="mv-logo" src="${S.masjid.logo}" alt="logo masjid">`
+    :domeSVG();
+}
+function masjidDonasiHTML(){
+  const m=S.masjid;
+  const types=[['Infaq',m.jInfaq],['Sedekah',m.jSedekah],['Wakaf',m.jWakaf],['Zakat',m.jZakat],['Donasi',m.jDonasi]].filter(t=>t[1]);
+  const typesHTML=types.map(t=>`<span class="mv-cb"><span class="mv-box"></span>${t[0]}</span>`).join('');
+  const kw=m.tampilKwitansi?`<div class="mv-kwit"><span>No.</span><span class="mv-fill w14"></span><span>Tgl.</span><span class="mv-fill w14"></span></div>`:'';
+  let lines='';
+  if(m.tampilProgram)lines+=`<div class="mv-line"><span class="lab">Untuk Program</span><span class="mv-fill flx"></span></div>`;
+  const duo=[];
+  if(m.tampilNama)duo.push(`<div class="mv-line"><span class="lab">Nama Donatur</span><span class="mv-fill flx"></span></div>`);
+  if(m.tampilNominal)duo.push(`<div class="mv-line"><span class="lab">Nominal &nbsp;Rp</span><span class="mv-fill flx"></span></div>`);
+  if(duo.length)lines+=`<div class="mv-duo">${duo.join('')}</div>`;
+  const ayat=m.ayat?`<div class="mv-ayat">&ldquo;Perumpamaan orang yang menginfakkan hartanya di jalan Allah seperti sebutir biji yang menumbuhkan tujuh tangkai; pada tiap tangkai ada seratus biji.&rdquo; <span>— QS. Al-Baqarah : 261</span></div>`:'';
+  return `<div class="mv-wrap">
+    <div class="mv-head">
+      <div class="mv-bis">Bismillahirrahmanirrahim</div>
+      <div class="mv-name">${masjidLogoTag()}<span>${v(m.nama,'Nama Masjid')}</span></div>
+      <div class="mv-addr">${esc(m.alamat||'')}${m.pengurus?` &nbsp;·&nbsp; <i>${esc(m.pengurus)}</i>`:''}</div>
+    </div>
+    <div class="mv-row"><div class="mv-types">${typesHTML}</div>${kw}</div>
+    ${lines}
+    <div class="mv-foot">${ayat}
+      <div class="mv-sign">Hormat Kami,<br><div class="mv-sp"></div><b>${v(m.bendahara,'……………')}</b><br>${esc(m.jabBendahara||'')}</div>
+    </div>
+  </div>`;
+}
+function masjidResmiHTML(){
+  const m=S.masjid;
+  let out=m.strip?'<div class="e-strip"></div>':'';
+  out+=`<div class="mv-sender"><div class="mv-send-head">${masjidLogoTag()}<b>${v(m.nama,'Nama Masjid')}</b></div>
+  <div class="mv-send-addr">${nl2br(esc(m.alamat||''))}${m.pengurus?`<br><i>${esc(m.pengurus)}</i>`:''}</div><div class="mv-send-rule"></div></div>`;
+  if(m.perangko)out+='<div class="e-box">Tempel<br>Perangko</div>';
+  if(m.postmark)out+=postmarkSVG('INDONESIA');
+  const lines=String(m.rAlamat||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  let rec;
+  if(m.rNama||lines.length){
+    rec=`<div class="r-name">${v(m.rNama,'Penerima')}</div>`;
+    if(lines.length)rec+=`<div class="r-lines">${lines.map(l=>`<div>${esc(l)}</div>`).join('')}</div>`;
+  }else{
+    rec=`<div class="r-name dim">Nama Penerima</div><div class="r-lines dim"><div>Alamat lengkap</div><div class="r-city">Kota — Kode Pos</div></div>`;
+  }
+  out+=`<div class="e-recipient">${rec}</div>`;
+  if(m.layanan)out+=`<div class="e-service">${esc(m.layanan)}</div>`;
+  return out;
+}
+function renderMasjid(){
+  const m=S.masjid;
+  sheetMasjid.className='sheet env env-'+m.size;
+  tagMasjid.textContent='AMPLOP MASJID · '+ENV_SIZE[m.size].tag+' MM';
+  sheetMasjid.innerHTML=m.mode==='donasi'?masjidDonasiHTML():masjidResmiHTML();
+  requestAnimationFrame(()=>fit('masjid'));
+}
+
 /* ================= REKRUTMEN : DATA & RENDER ================= */
 function hrKode(a){
   const pre=String(S.hr.prefix||'KRY').toUpperCase().replace(/[^0-9A-Z\-./+ %]/g,'-');
@@ -1964,107 +2230,6 @@ function renderJd(){
   tagJd.textContent='JADWAL PEKAN · '+(J.mode==='shift'?'MODE SHIFT':'MODE SESI')+' · A4 LANDSCAPE';
   refreshIcons();
   requestAnimationFrame(()=>fit('jd'));
-}
-
-/* ================= RENDER: AMPLOP POS ================= */
-const sheetEnv=$('#sheetEnv'),wrapEnv=$('#wrapEnv'),tagEnv=$('#tagEnv');
-function parseRec(txt){
-  return String(txt||'').split(/\n\s*\n/).map(b=>b.split('\n').map(s=>s.trim()).filter(Boolean)).filter(a=>a.length);
-}
-function envHTML(i){
-  const E=S.env,recs=parseRec(E.daftar);
-  const r=recs.length?recs[Math.min(i,recs.length-1)]:null;
-  let out='';
-  if(E.airmail)out+='<div class="e-strip"></div>';
-  if(E.tampilPengirim){
-    out+=`<div class="e-sender"><b>${v(E.pNama,'Pengirim')}</b>${E.pInst?'<br>'+esc(E.pInst):''}<br>${nl2br(esc(E.pAlamat||''))}<br>${esc(E.pKota||'')}${E.pKode?' '+esc(E.pKode):''}</div>`;
-  }
-  if(E.perangko)out+='<div class="e-box">Tempel<br>Perangko</div>';
-  if(E.postmark)out+=postmarkSVG(E.pKota);
-  let rec;
-  if(r){
-    rec=`<div class="r-name">${esc(r[0])}</div>`;
-    if(r.length>1){
-      const mid=r.slice(1,-1).map(l=>`<div>${esc(l)}</div>`).join('');
-      rec+=`<div class="r-lines">${mid}<div class="r-city">${esc(r[r.length-1])}</div></div>`;
-    }
-  }else{
-    rec=`<div class="r-name dim">Nama Penerima</div><div class="r-lines dim"><div>Alamat lengkap</div><div class="r-city">Kota — Kode Pos</div></div>`;
-  }
-  out+=`<div class="e-recipient">${rec}</div>`;
-  if(E.layanan)out+=`<div class="e-service">${esc(E.layanan)}</div>`;
-  return out;
-}
-function renderEnv(){
-  const E=S.env;
-  sheetEnv.className='sheet env env-'+E.size+(E.garis?' with-rules':'');
-  const recs=parseRec(E.daftar);
-  if(E.idx>=recs.length)E.idx=Math.max(0,recs.length-1);
-  sheetEnv.innerHTML=envHTML(E.idx);
-  tagEnv.textContent='AMPLOP '+ENV_SIZE[E.size].tag+' MM';
-  const rc=$('#recCount'),ri=$('#recIdx');
-  if(rc)rc.textContent=(recs.length||0)+' penerima terbaca';
-  if(ri)ri.textContent=(recs.length?(E.idx+1):0)+' / '+recs.length;
-  requestAnimationFrame(()=>fit('amplop'));
-}
-
-/* ================= RENDER: AMPLOP MASJID ================= */
-const sheetMasjid=$('#sheetMasjid'),wrapMasjid=$('#wrapMasjid'),tagMasjid=$('#tagMasjid');
-function masjidLogoTag(sizeClass){
-  return S.masjid.logo
-    ?`<img class="mv-logo${sizeClass?' '+sizeClass:''}" src="${S.masjid.logo}" alt="logo masjid">`
-    :domeSVG();
-}
-function masjidDonasiHTML(){
-  const m=S.masjid;
-  const types=[['Infaq',m.jInfaq],['Sedekah',m.jSedekah],['Wakaf',m.jWakaf],['Zakat',m.jZakat],['Donasi',m.jDonasi]].filter(t=>t[1]);
-  const typesHTML=types.map(t=>`<span class="mv-cb"><span class="mv-box"></span>${t[0]}</span>`).join('');
-  const kw=m.tampilKwitansi?`<div class="mv-kwit"><span>No.</span><span class="mv-fill w14"></span><span>Tgl.</span><span class="mv-fill w14"></span></div>`:'';
-  let lines='';
-  if(m.tampilProgram)lines+=`<div class="mv-line"><span class="lab">Untuk Program</span><span class="mv-fill flx"></span></div>`;
-  const duo=[];
-  if(m.tampilNama)duo.push(`<div class="mv-line"><span class="lab">Nama Donatur</span><span class="mv-fill flx"></span></div>`);
-  if(m.tampilNominal)duo.push(`<div class="mv-line"><span class="lab">Nominal &nbsp;Rp</span><span class="mv-fill flx"></span></div>`);
-  if(duo.length)lines+=`<div class="mv-duo">${duo.join('')}</div>`;
-  const ayat=m.ayat?`<div class="mv-ayat">&ldquo;Perumpamaan orang yang menginfakkan hartanya di jalan Allah seperti sebutir biji yang menumbuhkan tujuh tangkai; pada tiap tangkai ada seratus biji.&rdquo; <span>— QS. Al-Baqarah : 261</span></div>`:'';
-  return `<div class="mv-wrap">
-    <div class="mv-head">
-      <div class="mv-bis">Bismillahirrahmanirrahim</div>
-      <div class="mv-name">${masjidLogoTag()}<span>${v(m.nama,'Nama Masjid')}</span></div>
-      <div class="mv-addr">${esc(m.alamat||'')}${m.pengurus?` &nbsp;·&nbsp; <i>${esc(m.pengurus)}</i>`:''}</div>
-    </div>
-    <div class="mv-row"><div class="mv-types">${typesHTML}</div>${kw}</div>
-    ${lines}
-    <div class="mv-foot">${ayat}
-      <div class="mv-sign">Hormat Kami,<br><div class="mv-sp"></div><b>${v(m.bendahara,'……………')}</b><br>${esc(m.jabBendahara||'')}</div>
-    </div>
-  </div>`;
-}
-function masjidResmiHTML(){
-  const m=S.masjid;
-  let out=m.strip?'<div class="e-strip"></div>':'';
-  out+=`<div class="mv-sender"><div class="mv-send-head">${masjidLogoTag()}<b>${v(m.nama,'Nama Masjid')}</b></div>
-  <div class="mv-send-addr">${nl2br(esc(m.alamat||''))}${m.pengurus?`<br><i>${esc(m.pengurus)}</i>`:''}</div><div class="mv-send-rule"></div></div>`;
-  if(m.perangko)out+='<div class="e-box">Tempel<br>Perangko</div>';
-  if(m.postmark)out+=postmarkSVG('INDONESIA');
-  const lines=String(m.rAlamat||'').split('\n').map(s=>s.trim()).filter(Boolean);
-  let rec;
-  if(m.rNama||lines.length){
-    rec=`<div class="r-name">${v(m.rNama,'Penerima')}</div>`;
-    if(lines.length)rec+=`<div class="r-lines">${lines.map(l=>`<div>${esc(l)}</div>`).join('')}</div>`;
-  }else{
-    rec=`<div class="r-name dim">Nama Penerima</div><div class="r-lines dim"><div>Alamat lengkap</div><div class="r-city">Kota — Kode Pos</div></div>`;
-  }
-  out+=`<div class="e-recipient">${rec}</div>`;
-  if(m.layanan)out+=`<div class="e-service">${esc(m.layanan)}</div>`;
-  return out;
-}
-function renderMasjid(){
-  const m=S.masjid;
-  sheetMasjid.className='sheet env env-'+m.size;
-  tagMasjid.textContent='AMPLOP MASJID · '+ENV_SIZE[m.size].tag+' MM';
-  sheetMasjid.innerHTML=m.mode==='donasi'?masjidDonasiHTML():masjidResmiHTML();
-  requestAnimationFrame(()=>fit('masjid'));
 }
 
 /* ================= RENDER: SURAT DINAS ================= */
@@ -2399,7 +2564,7 @@ function buildPkgForm(){
     <button type="button" class="mini" data-act="pkg-print-all"><i data-lucide="layers"></i>Cetak Semua Label</button></div>`);
   h+=sec('Loket Cek Status Paket',
     `<label class="f"><span>Cari No. Resi / Nama Penerima</span><input type="text" id="pkgQ" placeholder="mis. PS-002 atau Ratna"></label><div id="pkgOut"></div>`);
-  $('#formPkg').innerHTML=h+`<div class="fnote">Cetak pada kertas stiker (label 4×6 / A6 / 100×100 mm) — satu label per kotak, langsung tempel.</div>`;
+  $('#formPkg').innerHTML=h+`<div class="fnote">Cetak pada kertas stiker (label 4×6 / A6 / 100×100 mm). Paket yang disetujui (SIAP DIAMBIL) otomatis muncul di <b>Meja Pengiriman Kurir</b> untuk serah terima.</div>`;
   pkgSearch('');refreshIcons();
 }
 
@@ -2560,7 +2725,7 @@ function buildMasjidForm(){
     h+=sec('Elemen Pos',chk('masjid','strip','Garis tepi airmail')+chk('masjid','perangko','Kotak perangko')+chk('masjid','postmark','Cap pos bergelombang')
       +sel('masjid','layanan','Label Layanan',[['','— tanpa label —'],['PRIORITAS','PRIORITAS'],['BIASA','BIASA']]));
   }
-  $('#formMasjid').innerHTML=h+`<div class="fnote">Amplop donasi dicetak kosong untuk diisi manual oleh bendahara; mode resmi mengikuti tata amplop pos. Cetak langsung lewat tombol di atas pratinjau.</div>`;
+  $('#formMasjid').innerHTML=h+`<div class="fnote">Amplop donasi dicetak kosong untuk diisi manual oleh bendahara; mode resmi mengikuti tata amplop pos. Cetak lewat tombol Cetak di bilah atas.</div>`;
   refreshIcons();
 }
 
@@ -3039,23 +3204,28 @@ function updateStats(){
   $('#stNo').textContent=c.n?c.n+' terbit':'—';
 }
 
-/* ================= TOMBOL CETAK LANGSUNG DI MEJA ================= */
-const deskPrintBtn=document.createElement('button');
-deskPrintBtn.type='button';
-deskPrintBtn.className='desk-print';
-deskPrintBtn.dataset.act='desk-print';
-deskPrintBtn.innerHTML='<i data-lucide="printer"></i><span>Cetak Langsung</span>';
-
 /* ================= DELEGASI KLIK ================= */
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;
   const act=b.dataset.act;
   if(act==='go')go(b.dataset.view);
-  else if(act==='desk-print')$('#btnPrint').click();
   else if(act==='scan-close')scanClose();
   else if(act==='scan-flip')scanFlip();
   else if(act==='abs-scan')scanOpen('abs','Pindai Kehadiran');
   else if(act==='hr-scan')scanOpen(b.dataset.m==='ok'?'hr-ok':'hr-no',b.dataset.m==='ok'?'Pindai — Terima ✓':'Pindai — Tolak ✗');
+  else if(act==='kdm-handover'){
+    const p=S.pkg.packages.map(x=>({...x,kode:pkgKode(x),layanan:S.pkg.layanan||'REGULER'})).find(x=>x.kode===b.dataset.kode);
+    if(p)krmHandover(p);
+  }
+  else if(act==='kdm-pull')krmPull(+b.dataset.id);
+  else if(act==='kdm-del')krmDel(+b.dataset.id);
+  else if(act==='kdm-adv')krmAdvance(+b.dataset.id,b.dataset.to);
+  else if(act==='kdm-demo'){
+    S.pkg.packages=EX_PKGS.map(x=>({...x}));S.pkg.idx=0;
+    autosave();buildPkgForm();renderPkg();renderKirim();
+    toast('Contoh paket dimuat — PS-002 sengaja belum disetujui','flask-conical');
+  }
+  else if(act==='kdm-refresh'){renderKirim();toast('Status pengiriman disegarkan','refresh-cw');}
   else if(act==='jd-on'){
     const d=S.jd.days[+b.dataset.i];if(!d)return;
     d.on=!d.on;autosave();buildJdForm();renderJd();
@@ -3134,7 +3304,8 @@ document.addEventListener('click',e=>{
     const i=PKG_ST.findIndex(s=>s[0]===(p.status||'siap'));
     p.status=PKG_ST[(i+1)%PKG_ST.length][0];
     autosave();buildPkgForm();renderPkg();
-    toast('Status '+pkgKode(p)+' → '+pkgSt(p)[1],'refresh-cw');
+    toast('Status '+pkgKode(p)+' → '+pkgSt(p)[1],p.status==='siap'?'package-check':'refresh-cw');
+    if(p.status==='siap'&&activeView==='kirim')renderKirim();
   }
   else if(act==='pkg-add'){
     const ns=S.pkg.packages.map(p=>p.n);const n=(ns.length?Math.max(...ns):0)+1;
@@ -3332,6 +3503,7 @@ const VIEWS={home:['Beranda','Meja pos satu pintu'],
   kertas:['Meja Kertas Surat','Kertas surat pribadi tiap penulis — kepala surat, motif & garis tulis tangan'],
   masjid:['Meja Amplop Masjid','Amplop donasi / infaq berlogo foto & surat-menyurat resmi DKM'],
   paket:['Meja Label Paket','Label stiker kotak — resi barcode, QR peta tujuan & stempel status'],
+  kirim:['Meja Pengiriman Kurir','Serah terima kurir — paket selesai packing masuk otomatis & pantau progres antar'],
   surat:['Meja Surat Dinas','Tata naskah resmi — undangan, tugas, keterangan, pernyataan, kuasa'],
   lamaran:['Meja Surat Lamaran','Lamaran kerja satu halaman, format sederhana'],
   hr:['Meja Rekrutmen','✓ terima / ✗ tolak pelamar — pindai kamera nyata, surat kerja & kartu ID'],
@@ -3347,11 +3519,9 @@ function go(view){
   const editor=['undangan','bungkus','amplop','kertas','masjid','paket','hr','abs','jd','surat','lamaran','cv'].includes(view);
   $('#btnArch').style.display=editor?'':'none';
   $('#btnPrint').style.display=editor?'':'none';
-  const desk=document.querySelector('#view-'+view+' .desk');
-  if(editor&&desk){desk.appendChild(deskPrintBtn);}
-  else{deskPrintBtn.remove();}
   $('#btnPrintT').textContent={undangan:'Cetak Undangan',bungkus:'Cetak Amplop',amplop:'Cetak Amplop',kertas:'Cetak Kertas',masjid:'Cetak Amplop',paket:'Cetak Label',hr:S.hr.mode==='kartu'?'Cetak Kartu':'Cetak Surat',abs:'Cetak Lembar',jd:'Cetak Jadwal',surat:'Cetak Surat',lamaran:'Cetak Surat',cv:'Cetak CV'}[view]||'Cetak';
   if(view==='arsip')renderArch();
+  if(view==='kirim')renderKirim();
   requestAnimationFrame(()=>fit(view));
   refreshIcons();
 }
