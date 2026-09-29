@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meja Pengiriman Pos — Serah Terima Kurir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#f1ead9;--paper2:#faf6ec;--paper3:#fffdf7;
+  --ink:#25312a;--ink2:#4c5a51;--ink3:#8a948c;
+  --line:#d9cfb6;--line2:#c9bfa4;
+  --red:#a63a2b;--red2:#7f2a1e;
+  --green:#1e3229;--cream:#efe7d3;--gold:#b98a2f;
+  --ok:#2e523f;--bad:#a63a2b;--biru:#245e73;--oker:#8a6420;
+  --mono:'IBM Plex Mono',monospace;--serif:'Fraunces',serif;--sans:'Archivo',sans-serif;
+}
+html,body{min-height:100%}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(#e0d5b8 1px,transparent 1.3px);background-size:20px 20px;min-height:100vh}
+.top{background:var(--green);color:#e8dfc8;padding:18px 26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  border-bottom:4px solid var(--red);position:relative}
+.top::after{content:'';position:absolute;left:0;right:0;bottom:-10px;height:6px;
+  background:repeating-linear-gradient(-55deg,var(--red) 0 12px,var(--cream) 12px 24px,#2f4d68 24px 36px,var(--cream) 36px 48px)}
+.tb-ic{width:44px;height:44px;color:#d8553f;flex:none}
+.tb-txt b{display:block;font:600 20px var(--serif);letter-spacing:.02em}
+.tb-txt small{display:block;font:600 9px var(--mono);letter-spacing:.24em;color:#a9a586;margin-top:4px;text-transform:uppercase}
+.tb-btns{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:1.5px solid var(--ink);background:var(--paper3);color:var(--ink);
+  font:700 12.5px var(--sans);border-radius:3px;cursor:pointer;box-shadow:2.5px 2.5px 0 var(--ink);text-decoration:none;transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:3.5px 3.5px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.btn.primary{background:var(--red);border-color:var(--red2);color:#fbf4e4;box-shadow:2.5px 2.5px 0 var(--red2)}
+.btn.primary:hover{box-shadow:3.5px 3.5px 0 var(--red2)}
+.btn svg{width:15px;height:15px}
+.wrap{max-width:1180px;margin:0 auto;padding:38px 26px 70px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:26px}
+.stat{background:var(--paper3);border:1px solid var(--line2);border-radius:4px;padding:13px 15px;box-shadow:3px 3px 0 rgba(37,49,42,.14)}
+.stat b{display:block;font:700 24px var(--mono);letter-spacing:.03em}
+.stat span{display:block;font:600 9.5px var(--mono);letter-spacing:.16em;color:var(--ink3);text-transform:uppercase;margin-top:4px}
+.stat.s0 b{color:var(--oker)}.stat.s1 b{color:var(--red)}.stat.s2 b{color:var(--biru)}.stat.s3 b{color:var(--ok)}.stat.s4 b{color:#7a4a1a}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.panel{background:var(--paper2);border:1px solid var(--line2);border-radius:6px;box-shadow:4px 4px 0 rgba(37,49,42,.16);overflow:hidden}
+.panel>h2{display:flex;align-items:center;gap:9px;font:700 13px var(--sans);letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 18px;background:#efe9d8;border-bottom:1px solid var(--line2);color:var(--ink)}
+.panel>h2 svg{width:17px;height:17px;color:var(--red)}
+.panel>.ph{font:500 11.5px/1.55 var(--sans);color:var(--ink3);padding:10px 18px;border-bottom:1px dashed var(--line)}
+.list{padding:14px}
+.card{background:var(--paper3);border:1px solid var(--line2);border-left:4px solid var(--line2);border-radius:4px;padding:12px 14px;margin-bottom:11px}
+.card.st-siap{border-left-color:var(--oker)}
+.card.st-kemas{border-left-color:var(--ink3)}
+.card.st-diserahkan{border-left-color:var(--red)}
+.card.st-diantar{border-left-color:var(--biru)}
+.card.st-diterima{border-left-color:var(--ok)}
+.card.st-gagal{border-left-color:#7a4a1a}
+.c-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.kode{font:700 13px var(--mono);letter-spacing:.08em;color:var(--ink)}
+.so{font:600 10px var(--mono);color:var(--ink3);letter-spacing:.06em}
+.pill{display:inline-block;padding:3px 11px;border-radius:99px;color:#fff;font:800 9.5px var(--sans);letter-spacing:.12em}
+.c-nm{font:700 14.5px var(--sans);color:var(--ink)}
+.c-sub{font:500 12px/1.55 var(--sans);color:var(--ink2);margin-top:3px}
+.c-sub b{font-weight:700;color:var(--ink)}
+.tl{margin-top:8px;font:500 10.5px/1.8 var(--mono);color:var(--ink2)}
+.tl b{color:var(--ink)}
+.c-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mini{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--line2);background:var(--paper3);
+  border-radius:3px;font:600 11.5px var(--sans);color:var(--ink);cursor:pointer;text-decoration:none}
+.mini:hover{border-color:var(--ink)}
+.mini svg{width:13px;height:13px}
+.mini.primary{background:var(--red);border-color:var(--red2);color:#fbf4e4}
+.mini.primary:hover{background:#96problem}
+.note{font:600 11px var(--mono);letter-spacing:.05em;color:var(--ink3);display:inline-flex;align-items:center;gap:6px}
+.note svg{width:13px;height:13px}
+.empty{text-align:center;padding:44px 18px;color:var(--ink3)}
+.empty svg{width:44px;height:44px;color:var(--line2)}
+.empty p{font:500 12.5px/1.65 var(--sans);max-width:46ch;margin:12px auto 0}
+.demo-btn{margin-top:14px}
+.maps{color:var(--biru);font-weight:700;text-decoration:none;border-bottom:1px dashed var(--biru)}
+.maps:hover{color:#1a4a5c}
+.foot{text-align:center;font:600 9.5px var(--mono);letter-spacing:.2em;color:var(--ink3);padding:8px 20px 30px;text-transform:uppercase}
+.live{display:inline-flex;align-items:center;gap:7px;font:600 10px var(--mono);letter-spacing:.14em;color:var(--ink3);margin:0 0 14px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <svg class="tb-ic" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="13" y="17" width="22" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.5 18.5 24 26l10.5-7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M30 8h8v8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 8 26 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+  <div class="tb-txt"><b>Meja Pengiriman Pos</b><small>Pos Studio · Serah Terima Kurir Pengantar</small></div>
+  <div class="tb-btns">
+    <a class="btn" href="kurir-pengantar.html" id="btnKurir"><i data-lucide="bike"></i><span>Buka Kurir Pengantar</span></a>
+    <button class="btn primary" id="btnRefresh"><i data-lucide="refresh-cw"></i><span>Segarkan</span></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="live"><i></i>TERSINKRON LANGSUNG DENGAN POS STUDIO &amp; KURIR (PENYIMPANAN LOKAL)</div>
+  <div class="stats" id="stats"></div>
+  <div class="cols">
+    <section class="panel">
+      <h2><i data-lucide="package-check"></i>Paket dari Meja Pos Satu Pintu</h2>
+      <div class="ph">Kotak yang <b>SIAP DIAMBIL</b> di Meja Label Paket Pos Studio berarti <b>sudah selesai &amp; disetujui</b> — tinggal ditekan <b>Serahkan ke Kurir</b> di sini. Pakai <b>Isi contoh demo</b> bila belum ada paket.</div>
+      <div class="list" id="prepList"></div>
+    </section>
+    <section class="panel">
+      <h2><i data-lucide="truck"></i>Progres Pengantar Kurir</h2>
+      <div class="ph">Status diperbarui otomatis begitu kurir mengambil, mengantar, dan melaporkan hasil di aplikasi Kurir Pengantar.</div>
+      <div class="list" id="progList"></div>
+    </section>
+  </div>
+</div>
+
+<div class="foot">Pos Studio · Meja Pengiriman · Semua data tersimpan lokal di peramban</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const DKEY='posstudio.dispatch';
+const ST={diserahkan:['DISERAHKAN','#a63a2b'],diantar:['DIANTAR','#245e73'],diterima:['DITERIMA','#2e523f'],gagal:['GAGAL','#7a4a1a']};
+const HM=iso=>{const d=new Date(iso);return isNaN(d)?'—':String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+const DT=iso=>{const d=new Date(iso);return isNaN(d)?'—':d.getDate()+' ']['JanFebMarAprMeiJunJulAguSepOktNovDes'.match(/.../g)[d.getMonth()]]+' '+HM(iso);};
+function esc2(){/*noop*/}
+function loadD(){try{const a=JSON.parse(localStorage.getItem(DKEY));return Array.isArray(a)?a:[]}catch(e){return[]}}
+function saveD(a){localStorage.setItem(DKEY,JSON.stringify(a));render();}
+function loadDemo(){try{const a=JSON.parse(localStorage.getItem('posstudio.kirim.demo'));return Array.isArray(a)?a:[]}catch(e){return[]}}
+function saveDemo(a){localStorage.setItem('posstudio.kirim.demo',JSON.stringify(a));render();}
+function draftPkgs(){
+  try{const d=JSON.parse(localStorage.getItem('posstudio.draft'));if(!d||!d.pkg)return[];
+    const P=d.pkg;return (P.packages||[]).map(p=>({...p,kode:String(P.prefix||'PS').toUpperCase()+'-'+String(p.n||0).padStart(3,'0')}));}catch(e){return[]}
+}
+function mapsURL(p){
+  if(p.maps)return p.maps;
+  const q=[p.rAlamat,p.rKota,p.rKode].map(x=>String(x||'').trim()).filter(Boolean).join(', ');
+  return q?'https://maps.google.com/?q='+encodeURIComponent(q):'';
+}
+function findRec(kode){const a=loadD();for(let i=a.length-1;i>=0;i--)if(a[i].kode===kode)return a[i];return null;}
+
+function handover(p){
+  const a=loadD();
+  const so='SO-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+String(a.length+1).padStart(3,'0');
+  a.push({id:Date.now(),so,kode:p.kode,rNama:p.rNama,rTelp:p.rTelp,rAlamat:p.rAlamat,rKota:p.rKota,rKode:p.rKode,
+    isi:p.isi,jumlah:p.jumlah,berat:p.berat,layanan:p.layanan||'REGULER',maps:mapsURL(p),
+    status:'diserahkan',kurir:'',serah:new Date().toISOString(),ambil:'',selesai:'',penerimaTtd:'',catatan:''});
+  saveD(a);
+  toast('Paket '+p.kode+' diserahkan ke kurir — '+so);
+}
+function pullBack(id){saveD(loadD().filter(r=>r.id!==id));toast('Serah terima dibatalkan — paket kembali ke Meja Pos','undo-2');}
+function delRec(id){saveD(loadD().filter(r=>r.id!==id));toast('Catatan pengiriman dihapus','trash-2');}
+function toast(msg,icon='check-circle-2'){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;right:18px;bottom:18px;z-index:99;display:flex;gap:10px;align-items:center;background:#fdf9ef;border:1px solid #25312a;border-left:4px solid #a63a2b;box-shadow:3px 3px 0 rgba(37,49,42,.25);padding:11px 16px;font:600 12.5px Archivo,sans-serif;color:#25312a';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='.3s';},2400);setTimeout(()=>t.remove(),2800);
+}
+
+function pill(st){const m=ST[st]||['?','#888'];return `<span class="pill" style="background:${m[1]}">${m[0]}</span>`;}
+
+function render(){
+  const pk=draftPkgs(),demo=loadDemo(),all=pk.concat(demo),store=loadD();
+  const n={kemas:0,siap:0,diserahkan:0,diantar:0,diterima:0,gagal:0};
+  all.forEach(p=>{const r=findRec(p.kode);if(!r){p.status==='siap'?n.siap++:n.kemas++;}else n[r.status]=(n[r.status]||0)+1;});
+  n.diserahkan=store.filter(r=>r.status==='diserahkan').length;
+  n.diantar=store.filter(r=>r.status==='diantar').length;
+  n.diterima=store.filter(r=>r.status==='diterima').length;
+  n.gagal=store.filter(r=>r.status==='gagal').length;
+  $('#stats').innerHTML=`
+    <div class="stat s0"><b>${n.kemas+n.siap}</b><span>Di Meja Pos</span></div>
+    <div class="stat s1"><b>${n.diserahkan}</b><span>Diserahkan</span></div>
+    <div class="stat s2"><b>${n.diantar}</b><span>Sedang Diantar</span></div>
+    <div class="stat s3"><b>${n.diterima}</b><span>Diterima</span></div>
+    <div class="stat s4"><b>${n.gagal}</b><span>Gagal</span></div>`;
+
+  /* daftar persiapan */
+  const prep=all.slice().reverse().map(p=>{
+    const r=findRec(p.kode);
+    if(r){
+      return `<div class="card st-${r.status}">
+        <div class="c-top"><span class="kode">${esc(p.kode)}</span>${pill(r.status)}</div>
+        <div class="c-nm">${esc(p.rNama||'—')}</div>
+        <div class="c-sub">Sudah diserahkan · <b>${esc(r.so||'')}</b>${r.kurir?' · kurir <b>'+esc(r.kurir)+'</b>':''}</div>
+        <div class="c-acts"><span class="note"><i data-lucide="radio"></i>pantau di panel Progres Pengantar</span></div>
+      </div>`;
+    }
+    const ready=p.status==='siap';
+    return `<div class="card ${ready?'st-siap':'st-kemas'}">
+      <div class="c-top"><span class="kode">${esc(p.kode)}</span>
+        <span class="pill" style="background:${ready?'#8a6420':'#8a948c'}">${ready?'SIAP DIAMBIL — SELESAI':'DIKEMAS — BELUM DISETUJUI'}</span></div>
+      <div class="c-nm">${esc(p.rNama||'—')}</div>
+      <div class="c-sub">${esc(p.rKota||'—')} ${p.rKode?esc(p.rKode):''} · ${esc(p.isi||'—')} · ${esc(p.berat||'—')} · ${esc(p.layanan||'REGULER')}</div>
+      <div class="c-acts">${ready
+        ?`<button class="mini primary" data-act="handover" data-kode="${esc(p.kode)}"><i data-lucide="handshake"></i>Serahkan ke Kurir</button>`
+        :`<span class="note"><i data-lucide="lock"></i>setujui dulu di Pos Studio → Meja Label Paket (status jadi SIAP DIAMBIL)</span>`}</div>
+    </div>`;
+  }).join('');
+  $('#prepList').innerHTML=prep||`<div class="empty"><i data-lucide="package-open"></i>
+    <p>Belum ada paket. Siapkan kotak di <b>Pos Studio → Meja Label Paket</b> (berkas ini harus dibuka dari folder yang sama), atau muat contoh demo di bawah.</p>
+    <button class="mini demo-btn" data-act="demo"><i data-lucide="flask-conical"></i>Isi contoh paket demo</button></div>`;
+
+  /* progres kurir */
+  const prog=store.slice().reverse().map(r=>{
+    let acts='';
+    if(r.status==='diserahkan')acts=`<button class="mini" data-act="pull" data-id="${r.id}"><i data-lucide="undo-2"></i>Tarik kembali</button>`;
+    if(r.status==='diterima'||r.status==='gagal')acts=`<button class="mini" data-act="del" data-id="${r.id}"><i data-lucide="trash-2"></i>Hapus catatan</button>`;
+    const m=r.maps?`<a class="maps" href="${esc(r.maps)}" target="_blank" rel="noopener">Peta tujuan</a>`:'';
+    return `<div class="card st-${r.status}">
+      <div class="c-top"><span class="kode">${esc(r.kode)}</span>${pill(r.status)}</div>
+      <div class="c-nm">${esc(r.rNama||'—')}</div>
+      <div class="c-sub">${esc(r.rKota||'')} · ${esc(r.isi||'—')} ${m?'· '+m:''}</div>
+      <div class="tl">
+        Diserahkan <b>${HM(r.serah)}</b>${r.so?' · '+esc(r.so):''}<br>
+        ${r.status!=='diserahkan'?`Diantar <b>${HM(r.ambil)}</b> oleh <b>${esc(r.kurir||'—')}</b><br>`:''}
+        ${r.status==='diterima'?`Diterima <b>${HM(r.selesai)}</b> — <b>${esc(r.penerimaTtd||'')}</b>`:''}
+        ${r.status==='gagal'?`Gagal <b>${HM(r.selesai)}</b> — ${esc(r.catatan||'—')}`:''}
+      </div>
+      ${acts?`<div class="c-acts">${acts}</div>`:''}
+    </div>`;
+  }).join('');
+  $('#progList').innerHTML=prog||`<div class="empty"><i data-lucide="bike"></i>
+    <p>Belum ada serah terima. Setelah menekan <b>Serahkan ke Kurir</b>, kurir akan melihat paketnya di aplikasi Kurir Pengantar — progresnya muncul di sini secara langsung.</p></div>`;
+  lucide.createIcons();
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const act=b.dataset.act;
+  if(act==='handover'){
+    const p=draftPkgs().concat(loadDemo()).find(x=>x.kode===b.dataset.kode);
+    if(p)handover(p);
+  }
+  else if(act==='pull')pullBack(+b.dataset.id);
+  else if(act==='del')delRec(+b.dataset.id);
+  else if(act==='demo'){
+    saveDemo([
+      {n:1,kode:'PS-901',rNama:'Ibu Ratna Sari (Demo)',rTelp:'0813-2211-9087',rAlamat:'Jl. Kenanga No. 45, Cibaduyut',rKota:'Bandung',rKode:'40231',isi:'Buket bunga demo',jumlah:'1 kotak',berat:'1,2 kg',layanan:'REGULER',status:'siap'},
+      {n:2,kode:'PS-902',rNama:'Bapak Hendra (Demo)',rTelp:'0812-7788-4560',rAlamat:'Perum Melati Indah Blok C No. 8',rKota:'Bekasi Timur',rKode:'17111',isi:'Hampers demo',jumlah:'2 kotak',berat:'3,4 kg',layanan:'KILAT',status:'siap'},
+      {n:3,kode:'PS-903',rNama:'Toko Bahagia (Demo)',rTelp:'0821-5544-3311',rAlamat:'Ruko Griya Asri Blok C No. 12',rKota:'Cimahi',rKode:'40521',isi:'Peralatan dapur demo',jumlah:'1 karton',berat:'6,2 kg',layanan:'REGULER',status:'kemas'}]);
+    toast('Contoh paket demo dimuat — PS-903 sengaja belum disetujui','flask-conical');
+  }
+});
+ $('#btnRefresh').addEventListener('click',()=>{render();toast('Status disegarkan','refresh-cw');});
+window.addEventListener('storage',render);
+setInterval(render,2500);
+render();
+lucide.createIcons();
+</script>
+</body>
+</html>
