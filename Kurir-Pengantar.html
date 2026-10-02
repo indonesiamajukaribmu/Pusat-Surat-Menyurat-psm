@@ -78,10 +78,12 @@ h2.sec small{margin-left:auto;font:600 10px var(--mono);color:var(--ink3);letter
 .mini.bad{background:var(--bad);border-color:var(--red2);color:#f7e9e6}
 .tl{margin-top:8px;font:500 10.5px/1.8 var(--mono);color:var(--ink2)}
 .tl b{color:var(--ink)}
-.inline{display:none;gap:8px;margin-top:10px;flex-wrap:wrap}
+.inline{display:none;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
 .inline.show{display:flex}
 .inline input{flex:1;min-width:170px;background:#fff;border:1px solid var(--line2);border-radius:3px;padding:8px 10px;font:500 13px var(--sans);color:var(--ink)}
-.inline input:focus{outline:none;border-color:var(--ink)}
+.inline input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(37,49,42,.09)}
+.inline .in-lab{width:100%;font:700 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+.inline.confirming input{border-color:var(--gold);background:#fdf6e3}
 .empty{text-align:center;padding:40px 18px;color:var(--ink3)}
 .empty svg{width:42px;height:42px;color:var(--line2)}
 .empty p{font:500 12.5px/1.65 var(--sans);max-width:44ch;margin:12px auto 0}
@@ -165,12 +167,21 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 const DKEY='posstudio.dispatch';
 const ST={diserahkan:['DISERAHKAN','#a63a2b'],diantar:['DIANTAR','#245e73'],diterima:['DITERIMA','#2e523f'],gagal:['GAGAL','#7a4a1a']};
 const HM=iso=>{const d=new Date(iso);return isNaN(d)?'—':String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+
+/* ===== PERBAIKAN #1: toast kini menerima pesan saja (ikon dihapus karena sebelumnya tak dirender) ===== */
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;$('#toast').appendChild(t);
   setTimeout(()=>{t.style.opacity='0';t.style.transition='.3s'},2400);setTimeout(()=>t.remove(),2800);}
+
 function loadD(){try{const a=JSON.parse(localStorage.getItem(DKEY));return Array.isArray(a)?a:[]}catch(e){return[]}}
-function saveD(a){localStorage.setItem(DKEY,JSON.stringify(a));render();}
+function saveD(a){localStorage.setItem(DKEY,JSON.stringify(a));render(true);}
 function kurir(){return localStorage.getItem('posstudio.kurir')||'';}
 function pill(st){const m=ST[st]||['?','#888'];return `<span class="pill" style="background:${m[1]}">${m[0]}</span>`;}
+
+/* ===== PERBAIKAN #2: status formulir inline dipertahankan lintas render =====
+   openForm  : formulir mana yang sedang terbuka {id, type:'ok'|'fail'}
+   formVals  : teks yang sedang diketik pada tiap formulir, agar tidak hilang saat daftar di-render ulang */
+let openForm=null;
+const formVals={};
 
 function cardHTML(r){
   const m=r.maps?`<a class="maps" href="${esc(r.maps)}" target="_blank" rel="noopener">Buka peta tujuan</a>`:'';
@@ -184,10 +195,16 @@ function cardHTML(r){
       ${m?`<a class="mini" href="${esc(r.maps)}" target="_blank" rel="noopener"><i data-lucide="map-pin"></i>Peta</a>`:''}
       ${r.rTelp?`<a class="mini" href="tel:${esc(r.rTelp)}"><i data-lucide="phone"></i>Telepon</a>`:''}
     </div>
-    <div class="inline" id="ok-${r.id}"><input type="text" placeholder="Nama penerima (tanda tangan digital)" maxlength="40">
-      <button class="mini ok" data-act="ok-save" data-id="${r.id}"><i data-lucide="check"></i>Konfirmasi</button></div>
-    <div class="inline" id="fail-${r.id}"><input type="text" placeholder="Alasan gagal (mis. alamat kosong)" maxlength="60">
-      <button class="mini bad" data-act="fail-save" data-id="${r.id}"><i data-lucide="x"></i>Laporkan</button></div>`;
+    <div class="inline" id="ok-${r.id}">
+      <span class="in-lab">✓ Tandai Diterima — tulis nama penerima, lalu Konfirmasi</span>
+      <input type="text" placeholder="Nama penerima (tanda tangan digital)" maxlength="40">
+      <button class="mini ok" data-act="ok-save" data-id="${r.id}"><i data-lucide="check"></i>Konfirmasi Diterima</button>
+    </div>
+    <div class="inline" id="fail-${r.id}">
+      <span class="in-lab">✗ Laporkan Gagal — tulis alasannya, lalu Laporkan</span>
+      <input type="text" placeholder="Alasan gagal (mis. alamat kosong)" maxlength="60">
+      <button class="mini bad" data-act="fail-save" data-id="${r.id}"><i data-lucide="x"></i>Laporkan Gagal</button>
+    </div>`;
   }else{
     acts=`<div class="tl">Diantar <b>${HM(r.ambil)}</b> oleh <b>${esc(r.kurir||'—')}</b><br>
       ${r.status==='diterima'?`Diterima <b>${HM(r.selesai)}</b> — <b>${esc(r.penerimaTtd||'')}</b>`:`Gagal <b>${HM(r.selesai)}</b> — ${esc(r.catatan||'—')}`}</div>`;
@@ -202,8 +219,17 @@ function cardHTML(r){
   </div>`;
 }
 
-function render(){
+/* ===== PERBAIKAN #3: render hanya membangun ulang DOM jika DATA berubah;
+   jika formulir sedang terbuka, ia dibuka kembali beserta isian & fokusnya ===== */
+let lastHash='';
+function dataHash(a){return JSON.stringify(a.map(r=>[r.id,r.status,r.kurir,r.penerimaTtd,r.catatan,r.ambil,r.selesai]));}
+
+function render(force){
   const a=loadD();
+  const h=dataHash(a);
+  if(!force&&h===lastHash)return;          /* data sama → jangan hapus DOM (formulir aman) */
+  lastHash=h;
+
   const pick=a.filter(r=>r.status==='diserahkan').reverse();
   const route=a.filter(r=>r.status==='diantar').reverse();
   const done=a.filter(r=>r.status==='diterima'||r.status==='gagal').reverse();
@@ -219,44 +245,112 @@ function render(){
   $('#listRoute').innerHTML=route.map(cardHTML).join('')||`<div class="empty"><i data-lucide="route"></i><p>Tidak ada paket yang sedang diantar. Tekan <b>Ambil &amp; Antar</b> pada paket di atas untuk mulai bertugas.</p></div>`;
   $('#listDone').innerHTML=done.map(cardHTML).join('')||`<div class="empty"><i data-lucide="clipboard-check"></i><p>Riwayat pengantaran yang sudah selesai atau gagal tercatat di sini — Meja Pos ikut melihatnya.</p></div>`;
   lucide.createIcons();
+  reapplyForm(a);
 }
+
+function reapplyForm(a){
+  if(!openForm)return;
+  const r=a.find(x=>x.id===openForm.id);
+  if(!(r&&r.status==='diantar')){openForm=null;return;}
+  const key=openForm.type+'-'+openForm.id;
+  const el=document.getElementById(key);
+  if(!el)return;
+  el.classList.add('show');
+  const inp=el.querySelector('input');
+  inp.value=formVals[key]||'';
+  if(openForm.focus){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);openForm.focus=false;}
+}
+
+/* ===== PERBAIKAN #4: isian diketik disimpan langsung, tak hilang walau daftar di-render ulang ===== */
+document.addEventListener('input',e=>{
+  const inp=e.target;
+  if(inp.matches&&inp.matches('.inline input')){
+    const box=inp.closest('.inline');
+    formVals[box.id]=inp.value;
+  }
+});
+/* tekan Enter pada kotak isian = menekan tombol Konfirmasi/Laporkan di sebelahnya */
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const inp=e.target;
+  if(inp.matches&&inp.matches('.inline input')){
+    const btn=inp.closest('.inline').querySelector('button[data-act$="-save"]');
+    if(btn){e.preventDefault();btn.click();}
+  }
+});
 
 /* aksi kurir */
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;
   const act=b.dataset.act,a=loadD();
   const i=a.findIndex(r=>r.id===+b.dataset.id);
+
   if(act==='take'&&i>-1){
     a[i].status='diantar';a[i].kurir=kurir()||'Kurir';a[i].ambil=new Date().toISOString();
-    saveD(a);toast(a[i].kode+' diambil — selamat mengantar!','package-check');
-    const el=$('#card-'+a[i].kode);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+    saveD(a);toast(a[i].kode+' diambil — selamat mengantar!');
+    setTimeout(()=>{const el=$('#card-'+a[i].kode);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},60);
   }
-  else if(act==='ok-open'){document.querySelectorAll('.inline.show').forEach(x=>x.classList.remove('show'));$('#ok-'+b.dataset.id).classList.add('show');}
-  else if(act==='fail-open'){document.querySelectorAll('.inline.show').forEach(x=>x.classList.remove('show'));$('#fail-'+b.dataset.id).classList.add('show');}
+  /* buka formulir: tutup yang lain, catat status terbuka, fokuskan isian */
+  else if(act==='ok-open'||act==='fail-open'){
+    const type=act==='ok-open'?'ok':'fail', id=+b.dataset.id;
+    document.querySelectorAll('.inline.show').forEach(x=>x.classList.remove('show'));
+    openForm=(openForm&&openForm.id===id&&openForm.type===type)?null:{id,type,focus:true};
+    if(openForm){
+      const el=document.getElementById(type+'-'+id);
+      if(el){el.classList.add('show');const inp=el.querySelector('input');inp.value=formVals[type+'-'+id]||'';inp.focus();}
+    }
+  }
+  /* ===== PERBAIKAN #5: konfirmasi dua langkah sebelum status disimpan ===== */
   else if(act==='ok-save'&&i>-1){
-    const val=b.parentElement.querySelector('input').value.trim();
-    if(!val){toast('Isi nama penerima dahulu','triangle-alert');return;}
-    a[i].status='diterima';a[i].penerimaTtd=val;a[i].selesai=new Date().toISOString();
-    if(!a[i].kurir)a[i].kurir=kurir()||'Kurir';
-    saveD(a);toast('✓ '+a[i].kode+' diterima atas nama '+val,'check-circle-2');
+    const inp=b.parentElement.querySelector('input');
+    const val=inp.value.trim();
+    if(!val){toast('Tuliskan nama penerima dahulu, lalu tekan Konfirmasi.');inp.focus();return;}
+    const r=a[i];
+    const msg='KONFIRMASI PAKET DITERIMA\n\n'
+      +'Resi        : '+r.kode+'\n'
+      +'Penerima    : '+(r.rNama||'—')+'\n'
+      +'Alamat      : '+(r.rAlamat||'—')+(r.rKota?', '+r.rKota:'')+'\n'
+      +'Ditandatangani oleh : '+val+'\n\n'
+      +'Simpan status DITERIMA dan laporkan ke Meja Pos?';
+    if(!window.confirm(msg)){toast('Konfirmasi dibatalkan — status belum berubah.');return;}
+    r.status='diterima';r.penerimaTtd=val;r.selesai=new Date().toISOString();
+    if(!r.kurir)r.kurir=kurir()||'Kurir';
+    openForm=null;delete formVals['ok-'+r.id];delete formVals['fail-'+r.id];
+    saveD(a);
+    toast('✓ '+r.kode+' DITERIMA atas nama '+val+' — dilaporkan ke Meja Pos');
+    setTimeout(()=>{const el=$('#card-'+r.kode);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),3000);}},60);
   }
   else if(act==='fail-save'&&i>-1){
-    const val=b.parentElement.querySelector('input').value.trim();
-    if(!val){toast('Tuliskan alasan gagalnya','triangle-alert');return;}
-    a[i].status='gagal';a[i].catatan=val;a[i].selesai=new Date().toISOString();
-    if(!a[i].kurir)a[i].kurir=kurir()||'Kurir';
-    saveD(a);toast('✗ '+a[i].kode+' dilaporkan gagal ke Meja Pos','circle-x');
+    const inp=b.parentElement.querySelector('input');
+    const val=inp.value.trim();
+    if(!val){toast('Tuliskan alasan gagalnya dahulu, lalu tekan Laporkan.');inp.focus();return;}
+    const r=a[i];
+    const msg='KONFIRMASI PAKET GAGAL DIANTAR\n\n'
+      +'Resi        : '+r.kode+'\n'
+      +'Penerima    : '+(r.rNama||'—')+'\n'
+      +'Alamat      : '+(r.rAlamat||'—')+(r.rKota?', '+r.rKota:'')+'\n'
+      +'Alasan gagal : '+val+'\n\n'
+      +'Simpan status GAGAL dan laporkan ke Meja Pos?';
+    if(!window.confirm(msg)){toast('Konfirmasi dibatalkan — status belum berubah.');return;}
+    r.status='gagal';r.catatan=val;r.selesai=new Date().toISOString();
+    if(!r.kurir)r.kurir=kurir()||'Kurir';
+    openForm=null;delete formVals['ok-'+r.id];delete formVals['fail-'+r.id];
+    saveD(a);
+    toast('✗ '+r.kode+' GAGAL ('+val+') — dilaporkan ke Meja Pos');
+    setTimeout(()=>{const el=$('#card-'+r.kode);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),3000);}},60);
   }
   else if(act==='scan-close')scanClose();
   else if(act==='renamed'){localStorage.removeItem('posstudio.kurir');$('#gate').classList.add('show');$('#knameWrap').style.display='none';}
 });
+
  $('#gateOk').addEventListener('click',()=>{
   const n=$('#gateName').value.trim();
-  if(!n){toast('Tuliskan nama Anda dahulu','triangle-alert');return;}
+  if(!n){toast('Tuliskan nama Anda dahulu');return;}
   localStorage.setItem('posstudio.kurir',n);
   $('#gate').classList.remove('show');paintName();
-  toast('Selamat bertugas, '+n+'!','bike');
+  toast('Selamat bertugas, '+n+'!');
 });
+ $('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')$('#gateOk').click();});
 function paintName(){const n=kurir();if(n){$('#kname').textContent=n;$('#knameWrap').style.display='inline-flex';}}
 
 /* pemindai resi */
@@ -282,9 +376,9 @@ let zx=null;
 function scanClose(){if(zx){try{zx.reset();}catch(e){}}$('#scanOv').classList.remove('show');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')scanClose();});
 
-window.addEventListener('storage',render);
-setInterval(render,2500);
-render();
+window.addEventListener('storage',()=>render(true));
+setInterval(()=>render(false),2500);   /* hanya merender ulang bila data benar-benar berubah */
+render(true);
 if(!kurir())$('#gate').classList.add('show');else paintName();
 lucide.createIcons();
 </script>
