@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meja Pengiriman Pos — Serah Terima Kurir</title>
+<title>Meja Pengiriman Pos — Rekap & Serah Terima Kurir</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -35,6 +35,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);
 .btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
 .btn.primary{background:var(--red);border-color:var(--red2);color:#fbf4e4;box-shadow:2.5px 2.5px 0 var(--red2)}
 .btn.primary:hover{box-shadow:3.5px 3.5px 0 var(--red2)}
+.btn.okb{background:var(--ok);border-color:#1e3d2c;color:#eaf3ea;box-shadow:2.5px 2.5px 0 #1e3d2c}
 .btn svg{width:15px;height:15px}
 .wrap{max-width:1180px;margin:0 auto;padding:38px 26px 70px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:26px}
@@ -49,17 +50,17 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);
   padding:14px 18px;background:#efe9d8;border-bottom:1px solid var(--line2);color:var(--ink)}
 .panel>h2 svg{width:17px;height:17px;color:var(--red)}
 .panel>.ph{font:500 11.5px/1.55 var(--sans);color:var(--ink3);padding:10px 18px;border-bottom:1px dashed var(--line)}
+.panel>.ph b{color:var(--ink)}
 .list{padding:14px}
 .card{background:var(--paper3);border:1px solid var(--line2);border-left:4px solid var(--line2);border-radius:4px;padding:12px 14px;margin-bottom:11px}
-.card.st-siap{border-left-color:var(--oker)}
 .card.st-kemas{border-left-color:var(--ink3)}
+.card.st-siap{border-left-color:var(--oker)}
 .card.st-diserahkan{border-left-color:var(--red)}
 .card.st-diantar{border-left-color:var(--biru)}
 .card.st-diterima{border-left-color:var(--ok)}
 .card.st-gagal{border-left-color:#7a4a1a}
 .c-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
 .kode{font:700 13px var(--mono);letter-spacing:.08em;color:var(--ink)}
-.so{font:600 10px var(--mono);color:var(--ink3);letter-spacing:.06em}
 .pill{display:inline-block;padding:3px 11px;border-radius:99px;color:#fff;font:800 9.5px var(--sans);letter-spacing:.12em}
 .c-nm{font:700 14.5px var(--sans);color:var(--ink)}
 .c-sub{font:500 12px/1.55 var(--sans);color:var(--ink2);margin-top:3px}
@@ -72,7 +73,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);
 .mini:hover{border-color:var(--ink)}
 .mini svg{width:13px;height:13px}
 .mini.primary{background:var(--red);border-color:var(--red2);color:#fbf4e4}
-.mini.primary:hover{background:#96problem}
+.mini.primary:hover{background:#8f2f22}
 .note{font:600 11px var(--mono);letter-spacing:.05em;color:var(--ink3);display:inline-flex;align-items:center;gap:6px}
 .note svg{width:13px;height:13px}
 .empty{text-align:center;padding:44px 18px;color:var(--ink3)}
@@ -81,50 +82,110 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);
 .demo-btn{margin-top:14px}
 .maps{color:var(--biru);font-weight:700;text-decoration:none;border-bottom:1px dashed var(--biru)}
 .maps:hover{color:#1a4a5c}
-.foot{text-align:center;font:600 9.5px var(--mono);letter-spacing:.2em;color:var(--ink3);padding:8px 20px 30px;text-transform:uppercase}
 .live{display:inline-flex;align-items:center;gap:7px;font:600 10px var(--mono);letter-spacing:.14em;color:var(--ink3);margin:0 0 14px}
 .live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:blink 1.6s infinite}
 @keyframes blink{50%{opacity:.25}}
+.foot{text-align:center;font:600 9.5px var(--mono);letter-spacing:.2em;color:var(--ink3);padding:8px 20px 30px;text-transform:uppercase}
+
+/* ===== REKAP ===== */
+.rk-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 14px}
+.rk-tools .mini.on{background:var(--ink);border-color:var(--ink);color:var(--cream)}
+.rk-wrap{overflow:auto;border:1px solid var(--line2);border-radius:6px;box-shadow:4px 4px 0 rgba(37,49,42,.16);background:var(--paper3)}
+.rk-tbl{width:100%;border-collapse:collapse;font:500 11.5px/1.5 var(--sans);min-width:900px}
+.rk-tbl th{position:sticky;top:0;background:#efe9d8;font:700 9.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);padding:9px 10px;text-align:left;border-bottom:2px solid var(--ink);white-space:nowrap;z-index:2}
+.rk-tbl td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.rk-tbl tr:nth-child(even) td{background:#faf6ec}
+.rk-tbl tr:hover td{background:#fdf3d8}
+.rk-tbl .rk-kode{font:700 11.5px var(--mono);white-space:nowrap}
+.rk-tbl .rk-st{white-space:nowrap}
+.rk-tbl td small{color:var(--ink3)}
+.rk-empty{padding:30px;text-align:center;color:var(--ink3);font:500 12.5px var(--sans)}
+.foot-note{font:500 11.5px/1.6 var(--sans);color:var(--ink3);margin-top:12px}
+.foot-note b{color:var(--ink2)}
+@media print{
+  body{background:#fff}
+  .top,.stats,.cols,.live,.foot,.rk-tools{display:none!important}
+  .wrap{padding:0 8mm}
+  h2.sec2{display:flex;align-items:center;gap:9px;font:700 14px var(--sans);letter-spacing:.1em;text-transform:uppercase;
+    border-bottom:2px solid #000;padding-bottom:6px;margin:0 0 12px}
+  .rk-wrap{box-shadow:none;border-color:#000}
+  .rk-tbl{min-width:0;font-size:10px}
+  .rk-tbl th{background:#eee!important;-webkit-print-color-adjust:exact}
+}
+h2.sec2{display:none}
+@media print{h2.sec2{display:flex}}
 </style>
 </head>
 <body>
 
 <header class="top">
   <svg class="tb-ic" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="13" y="17" width="22" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.5 18.5 24 26l10.5-7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M30 8h8v8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 8 26 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
-  <div class="tb-txt"><b>Meja Pengiriman Pos</b><small>Pos Studio · Serah Terima Kurir Pengantar</small></div>
+  <div class="tb-txt"><b>Meja Pengiriman Pos</b><small>Pos Studio · Rekap &amp; Serah Terima Kurir Pengantar</small></div>
   <div class="tb-btns">
-    <a class="btn" href="kurir-pengantar.html" id="btnKurir"><i data-lucide="bike"></i><span>Buka Kurir Pengantar</span></a>
+    <a class="btn" id="btnStudio" href="pos-studio.html"><i data-lucide="pen-tool"></i><span>Buka Pos Studio</span></a>
+    <a class="btn" id="btnKurir" href="kurir-pengantar.html"><i data-lucide="bike"></i><span>Buka Kurir Pengantar</span></a>
     <button class="btn primary" id="btnRefresh"><i data-lucide="refresh-cw"></i><span>Segarkan</span></button>
   </div>
 </header>
 
 <div class="wrap">
-  <div class="live"><i></i>TERSINKRON LANGSUNG DENGAN POS STUDIO &amp; KURIR (PENYIMPANAN LOKAL)</div>
+  <div class="live"><i></i>TERSINKRON LANGSUNG DENGAN POS STUDIO &amp; KURIR — FOLDER &amp; PERAMBAN YANG SAMA</div>
   <div class="stats" id="stats"></div>
+
   <div class="cols">
     <section class="panel">
-      <h2><i data-lucide="package-check"></i>Paket dari Meja Pos Satu Pintu</h2>
-      <div class="ph">Kotak yang <b>SIAP DIAMBIL</b> di Meja Label Paket Pos Studio berarti <b>sudah selesai &amp; disetujui</b> — tinggal ditekan <b>Serahkan ke Kurir</b> di sini. Pakai <b>Isi contoh demo</b> bila belum ada paket.</div>
+      <h2><i data-lucide="package-check"></i>Paket dari Meja Pos (Administrasi)</h2>
+      <div class="ph">Kotak yang <b>SIAP DIAMBIL</b> di Pos Studio → Meja Label Paket berarti sudah selesai &amp; disetujui — tinggal tekan <b>Serahkan ke Kurir</b> di sini. Belum ada paket? Muat <b>contoh demo</b> di bawah.</div>
       <div class="list" id="prepList"></div>
     </section>
     <section class="panel">
       <h2><i data-lucide="truck"></i>Progres Pengantar Kurir</h2>
-      <div class="ph">Status diperbarui otomatis begitu kurir mengambil, mengantar, dan melaporkan hasil di aplikasi Kurir Pengantar.</div>
+      <div class="ph">Status diperbarui otomatis begitu kurir mengambil, mengantar, dan melaporkan hasil di aplikasi <b>Kurir Pengantar</b>.</div>
       <div class="list" id="progList"></div>
     </section>
   </div>
+
+  <!-- ===== REKAP LENGKAP ===== -->
+  <h2 class="sec2">Rekap Pengiriman — Semua Paket</h2>
+  <section class="panel" style="margin-top:26px">
+    <h2><i data-lucide="table"></i>Rekap Serah Terima — Semua Paket</h2>
+    <div class="ph">Gabungan paket yang masih di meja dan yang sedang/selesai diantar kurir. Gunakan untuk laporan harian.</div>
+    <div class="list">
+      <div class="rk-tools">
+        <button class="mini" data-act="rk-all"><i data-lucide="list"></i>Semua</button>
+        <button class="mini" data-act="rk-meja"><i data-lucide="package"></i>Di Meja</button>
+        <button class="mini" data-act="rk-jalan"><i data-lucide="bike"></i>Di Jalan</button>
+        <button class="mini" data-act="rk-done"><i data-lucide="check-circle-2"></i>Selesai/Gagal</button>
+        <span style="flex:1"></span>
+        <button class="mini" data-act="rk-csv"><i data-lucide="download"></i>Unduh CSV</button>
+        <button class="mini" data-act="rk-print"><i data-lucide="printer"></i>Cetak Rekap</button>
+        <button class="mini primary" data-act="handover-all"><i data-lucide="handshake"></i>Serahkan Semua yang Siap</button>
+      </div>
+      <div class="rk-wrap" id="rkWrap"></div>
+      <p class="foot-note"><b>Cara menghubungkan kedua berkas:</b> buka <b>Pos-Studio.html</b> (administrasi lengkap — buat &amp; setujui paket di Meja Label Paket) dan berkas ini dari <b>folder yang sama</b> di <b>peramban yang sama</b>. Data bertukar otomatis lewat penyimpanan lokal: paket yang disetujui muncul di sini, dan setelah <b>Serahkan ke Kurir</b> langsung terlihat di aplikasi Kurir Pengantar. Jika nama berkas Anda berbeda, sesuaikan dua tautan di pojok kanan atas.</p>
+    </div>
+  </section>
 </div>
 
-<div class="foot">Pos Studio · Meja Pengiriman · Semua data tersimpan lokal di peramban</div>
+<div class="foot">Pos Studio · Meja Pengiriman · Rekap &amp; Serah Terima · Semua data tersimpan lokal di peramban</div>
 
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const DKEY='posstudio.dispatch';
 const ST={diserahkan:['DISERAHKAN','#a63a2b'],diantar:['DIANTAR','#245e73'],diterima:['DITERIMA','#2e523f'],gagal:['GAGAL','#7a4a1a']};
+const BULAN3=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const HM=iso=>{const d=new Date(iso);return isNaN(d)?'—':String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
-const DT=iso=>{const d=new Date(iso);return isNaN(d)?'—':d.getDate()+' ']['JanFebMarAprMeiJunJulAguSepOktNovDes'.match(/.../g)[d.getMonth()]]+' '+HM(iso);};
-function esc2(){/*noop*/}
+/* ===== PERBAIKAN: fungsi DT yang tadinya rusak (kurung siku tidak seimbang → seluruh skrip mati) ===== */
+const DT=iso=>{const d=new Date(iso);return isNaN(d)?'—':d.getDate()+' '+BULAN3[d.getMonth()]+' '+HM(iso);};
+
+function toast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;right:18px;bottom:18px;z-index:99;display:flex;gap:10px;align-items:center;background:#fdf9ef;border:1px solid #25312a;border-left:4px solid #a63a2b;box-shadow:3px 3px 0 rgba(37,49,42,.25);padding:11px 16px;font:600 12.5px Archivo,sans-serif;color:#25312a';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='.3s';},2600);setTimeout(()=>t.remove(),3000);
+}
 function loadD(){try{const a=JSON.parse(localStorage.getItem(DKEY));return Array.isArray(a)?a:[]}catch(e){return[]}}
 function saveD(a){localStorage.setItem(DKEY,JSON.stringify(a));render();}
 function loadDemo(){try{const a=JSON.parse(localStorage.getItem('posstudio.kirim.demo'));return Array.isArray(a)?a:[]}catch(e){return[]}}
@@ -139,31 +200,32 @@ function mapsURL(p){
   return q?'https://maps.google.com/?q='+encodeURIComponent(q):'';
 }
 function findRec(kode){const a=loadD();for(let i=a.length-1;i>=0;i--)if(a[i].kode===kode)return a[i];return null;}
+function allPkgs(){return draftPkgs().concat(loadDemo());}
 
 function handover(p){
   const a=loadD();
   const so='SO-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+String(a.length+1).padStart(3,'0');
-  a.push({id:Date.now(),so,kode:p.kode,rNama:p.rNama,rTelp:p.rTelp,rAlamat:p.rAlamat,rKota:p.rKota,rKode:p.rKode,
+  a.push({id:Date.now()+Math.floor(Math.random()*99),so,kode:p.kode,rNama:p.rNama,rTelp:p.rTelp,rAlamat:p.rAlamat,rKota:p.rKota,rKode:p.rKode,
     isi:p.isi,jumlah:p.jumlah,berat:p.berat,layanan:p.layanan||'REGULER',maps:mapsURL(p),
     status:'diserahkan',kurir:'',serah:new Date().toISOString(),ambil:'',selesai:'',penerimaTtd:'',catatan:''});
   saveD(a);
   toast('Paket '+p.kode+' diserahkan ke kurir — '+so);
 }
-function pullBack(id){saveD(loadD().filter(r=>r.id!==id));toast('Serah terima dibatalkan — paket kembali ke Meja Pos','undo-2');}
-function delRec(id){saveD(loadD().filter(r=>r.id!==id));toast('Catatan pengiriman dihapus','trash-2');}
-function toast(msg,icon='check-circle-2'){
-  const t=document.createElement('div');
-  t.style.cssText='position:fixed;right:18px;bottom:18px;z-index:99;display:flex;gap:10px;align-items:center;background:#fdf9ef;border:1px solid #25312a;border-left:4px solid #a63a2b;box-shadow:3px 3px 0 rgba(37,49,42,.25);padding:11px 16px;font:600 12.5px Archivo,sans-serif;color:#25312a';
-  t.textContent=msg;document.body.appendChild(t);
-  setTimeout(()=>{t.style.opacity='0';t.style.transition='.3s';},2400);setTimeout(()=>t.remove(),2800);
+function handoverAll(){
+  const ready=allPkgs().filter(p=>p.status==='siap'&&!findRec(p.kode));
+  if(!ready.length){toast('Tidak ada paket berstatus SIAP DIAMBIL');return;}
+  if(!window.confirm('Serahkan '+ready.length+' paket berstatus SIAP DIAMBIL ke kurir sekarang?'))return;
+  ready.forEach(p=>handover(p));
+  toast(ready.length+' paket diserahkan — kurir bisa langsung mengambil di aplikasi Kurir Pengantar');
 }
-
+function pullBack(id){saveD(loadD().filter(r=>r.id!==id));toast('Serah terima dibatalkan — paket kembali ke Meja Pos');}
+function delRec(id){saveD(loadD().filter(r=>r.id!==id));toast('Catatan pengiriman dihapus');}
 function pill(st){const m=ST[st]||['?','#888'];return `<span class="pill" style="background:${m[1]}">${m[0]}</span>`;}
 
 function render(){
   const pk=draftPkgs(),demo=loadDemo(),all=pk.concat(demo),store=loadD();
   const n={kemas:0,siap:0,diserahkan:0,diantar:0,diterima:0,gagal:0};
-  all.forEach(p=>{const r=findRec(p.kode);if(!r){p.status==='siap'?n.siap++:n.kemas++;}else n[r.status]=(n[r.status]||0)+1;});
+  all.forEach(p=>{const r=findRec(p.kode);if(!r){p.status==='siap'?n.siap++:n.kemas++;}});
   n.diserahkan=store.filter(r=>r.status==='diserahkan').length;
   n.diantar=store.filter(r=>r.status==='diantar').length;
   n.diterima=store.filter(r=>r.status==='diterima').length;
@@ -198,7 +260,7 @@ function render(){
     </div>`;
   }).join('');
   $('#prepList').innerHTML=prep||`<div class="empty"><i data-lucide="package-open"></i>
-    <p>Belum ada paket. Siapkan kotak di <b>Pos Studio → Meja Label Paket</b> (berkas ini harus dibuka dari folder yang sama), atau muat contoh demo di bawah.</p>
+    <p>Belum ada paket. Siapkan kotak di <b>Pos Studio → Meja Label Paket</b> (berkas dibuka dari folder yang sama), atau muat contoh demo di bawah.</p>
     <button class="mini demo-btn" data-act="demo"><i data-lucide="flask-conical"></i>Isi contoh paket demo</button></div>`;
 
   /* progres kurir */
@@ -222,27 +284,104 @@ function render(){
   }).join('');
   $('#progList').innerHTML=prog||`<div class="empty"><i data-lucide="bike"></i>
     <p>Belum ada serah terima. Setelah menekan <b>Serahkan ke Kurir</b>, kurir akan melihat paketnya di aplikasi Kurir Pengantar — progresnya muncul di sini secara langsung.</p></div>`;
+
+  renderRekap();
   lucide.createIcons();
 }
+
+/* ===== REKAP TABEL ===== */
+let rkFilter='all';
+function rekapRows(){
+  const out=[];
+  allPkgs().forEach(p=>{
+    const r=findRec(p.kode);
+    if(r){
+      out.push({kode:p.kode,so:r.so,pNama:r.rNama,rTelp:r.rTelp,rKota:r.rKota,rAlamat:r.rAlamat,isi:r.isi,jumlah:r.jumlah,berat:r.berat,
+        layanan:r.layanan,st:r.status,kurir:r.kurir,serah:r.serah,ambil:r.ambil,selesai:r.selesai,hasil:r.status==='diterima'?('Diterima oleh '+(r.penerimaTtd||'—')):('Gagal: '+(r.catatan||'—'))});
+    }else{
+      out.push({kode:p.kode,so:'—',pNama:p.rNama,rTelp:p.rTelp,rKota:p.rKota,rAlamat:p.rAlamat,isi:p.isi,jumlah:p.jumlah,berat:p.berat,
+        layanan:p.layanan||'REGULER',st:p.status==='siap'?'siap':'kemas',kurir:'—',serah:'',ambil:'',selesai:'',hasil:'—'});
+    }
+  });
+  return out.reverse();
+}
+function stLabel(st){
+  if(ST[st])return ST[st][0];
+  return st==='siap'?'SIAP DIAMBIL':'DIKEMAS';
+}
+function stColor(st){
+  if(ST[st])return ST[st][1];
+  return st==='siap'?'#8a6420':'#8a948c';
+}
+function renderRekap(){
+  let rows=rekapRows();
+  if(rkFilter==='meja')rows=rows.filter(r=>r.st==='kemas'||r.st==='siap');
+  if(rkFilter==='jalan')rows=rows.filter(r=>r.st==='diserahkan'||r.st==='diantar');
+  if(rkFilter==='done')rows=rows.filter(r=>r.st==='diterima'||r.st==='gagal');
+  document.querySelectorAll('[data-act^="rk-"]').forEach(b=>{
+    const k=b.dataset.act;
+    if(['rk-all','rk-meja','rk-jalan','rk-done'].includes(k))b.classList.toggle('on',k==='rk-'+(rkFilter==='all'?'all':rkFilter));
+  });
+  const el=$('#rkWrap');
+  if(!rows.length){
+    el.innerHTML='<div class="rk-empty">Belum ada data untuk rekap ini.</div>';return;
+  }
+  el.innerHTML=`<table class="rk-tbl"><thead><tr>
+    <th>Resi</th><th>No. SO</th><th>Penerima</th><th>Tujuan</th><th>Isi</th><th>Layanan</th><th>Status</th><th>Kurir</th><th>Waktu</th><th>Hasil</th>
+  </tr></thead><tbody>${rows.map(r=>`<tr>
+    <td class="rk-kode">${esc(r.kode)}</td>
+    <td><small>${esc(r.so)}</small></td>
+    <td><b>${esc(r.pNama||'—')}</b>${r.rTelp?`<br><small>${esc(r.rTelp)}</small>`:''}</td>
+    <td>${esc(r.rKota||'—')}<br><small>${esc((r.rAlamat||'').split('\n')[0]||'')}</small></td>
+    <td>${esc(r.isi||'—')}<br><small>${esc(r.jumlah||'')} · ${esc(r.berat||'')}</small></td>
+    <td><small>${esc(r.layanan)}</small></td>
+    <td class="rk-st"><span class="pill" style="background:${stColor(r.st)}">${stLabel(r.st)}</span></td>
+    <td>${esc(r.kurir||'—')}</td>
+    <td><small>Diserahkan: ${r.serah?esc(DT(r.serah)):'—'}<br>Diantar: ${r.ambil?esc(DT(r.ambil)):'—'}<br>Selesai: ${r.selesai?esc(DT(r.selesai)):'—'}</small></td>
+    <td><small>${esc(r.hasil)}</small></td>
+  </tr>`).join('')}</tbody></table>`;
+}
+function rekapCSV(){
+  const rows=rekapRows();
+  const head=['Resi','No SO','Penerima','Telepon','Kota','Alamat','Isi','Jumlah','Berat','Layanan','Status','Kurir','Diserahkan','Diantar','Selesai','Hasil'];
+  const body=rows.map(r=>[r.kode,r.so,r.pNama,r.rTelp,r.rKota,(r.rAlamat||'').replace(/\n/g,' | '),r.isi,r.jumlah,r.berat,r.layanan,
+    stLabel(r.st),r.kurir,r.serah?DT(r.serah):'',r.ambil?DT(r.ambil):'',r.selesai?DT(r.selesai):'',r.hasil]);
+  const csv='\uFEFF'+[head].concat(body).map(row=>row.map(c=>{c=String(c==null?'':c).replace(/"/g,'""');return '"'+c+'"';}).join(';')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='rekap-pengiriman.csv';
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);if(a.parentNode)a.parentNode.removeChild(a);},400);
+  toast('Rekap diunduh — '+rows.length+' baris');
+}
+function rekapPrint(){window.print();}
 
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b)return;
   const act=b.dataset.act;
   if(act==='handover'){
-    const p=draftPkgs().concat(loadDemo()).find(x=>x.kode===b.dataset.kode);
+    const p=allPkgs().find(x=>x.kode===b.dataset.kode);
     if(p)handover(p);
   }
+  else if(act==='handover-all')handoverAll();
   else if(act==='pull')pullBack(+b.dataset.id);
   else if(act==='del')delRec(+b.dataset.id);
+  else if(act==='rk-all'){rkFilter='all';renderRekap();}
+  else if(act==='rk-meja'){rkFilter='meja';renderRekap();}
+  else if(act==='rk-jalan'){rkFilter='jalan';renderRekap();}
+  else if(act==='rk-done'){rkFilter='done';renderRekap();}
+  else if(act==='rk-csv')rekapCSV();
+  else if(act==='rk-print')rekapPrint();
   else if(act==='demo'){
     saveDemo([
       {n:1,kode:'PS-901',rNama:'Ibu Ratna Sari (Demo)',rTelp:'0813-2211-9087',rAlamat:'Jl. Kenanga No. 45, Cibaduyut',rKota:'Bandung',rKode:'40231',isi:'Buket bunga demo',jumlah:'1 kotak',berat:'1,2 kg',layanan:'REGULER',status:'siap'},
       {n:2,kode:'PS-902',rNama:'Bapak Hendra (Demo)',rTelp:'0812-7788-4560',rAlamat:'Perum Melati Indah Blok C No. 8',rKota:'Bekasi Timur',rKode:'17111',isi:'Hampers demo',jumlah:'2 kotak',berat:'3,4 kg',layanan:'KILAT',status:'siap'},
       {n:3,kode:'PS-903',rNama:'Toko Bahagia (Demo)',rTelp:'0821-5544-3311',rAlamat:'Ruko Griya Asri Blok C No. 12',rKota:'Cimahi',rKode:'40521',isi:'Peralatan dapur demo',jumlah:'1 karton',berat:'6,2 kg',layanan:'REGULER',status:'kemas'}]);
-    toast('Contoh paket demo dimuat — PS-903 sengaja belum disetujui','flask-conical');
+    toast('Contoh paket demo dimuat — PS-903 sengaja belum disetujui');
   }
 });
- $('#btnRefresh').addEventListener('click',()=>{render();toast('Status disegarkan','refresh-cw');});
+ $('#btnRefresh').addEventListener('click',()=>{render();toast('Status disegarkan');});
 window.addEventListener('storage',render);
 setInterval(render,2500);
 render();
